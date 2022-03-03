@@ -1,0 +1,122 @@
+{{>layout/top}}
+
+<!-- 타이틀 -->
+<h2 class="ui dividing header">사용자관리</h2>
+
+<!-- 에러메시지 출력 부분
+ #은 Controller에서 보내준 model에서
+ errorMessage가 존재하지는 확인하고,
+ 있으면 화면에 뿌려준다.
+-->
+{{#errorMessage}}
+<div class="ui negative message">
+    <i class="close icon"></i>
+    <div class="header">
+        오류!
+    </div>
+    <ul class="list">
+        {{#messages}}
+        <li>{{.}}</li>
+        {{/messages}}
+    </ul>
+</div>
+{{/errorMessage}}
+
+<!-- 사용자조회 -->
+<table class="ui selectable celled striped table" id="user-list">
+    <thead>
+        <tr>
+            <th>닉네임</th>
+            <th>한글이름</th>
+            <th>전화번호</th>
+            <th>상태</th>
+            <th>ID</th>
+        </tr>
+    </thead>
+    <tbody>
+    <!-- 사용자 반복 출력
+     데이터가 있고, 순회형 자료구조면
+     반복해서 처리해준다.
+    -->
+        {{#users}}
+        <tr>
+            <td>
+                <!-- 사용자 반복 출력
+                    객체 내부의 변수를 가져온다
+                -->
+                {{nickname}}
+            </td>
+            <td>
+                {{korName}}
+            </td>
+            <td>
+                {{telNum}}
+            </td>
+            <td>
+                {{state}}
+            </td>
+            <td>
+                {{accountId}}
+            </td>
+        </tr>
+        {{/users}}
+    </tbody>
+</table>
+
+<div>
+    <!-- 사용자 추가삭제 부분 -->
+    <form class="ui form" method="post">
+        <div class="field">
+            <label>닉네임</label>
+            <input id="form-nickname" type="text" name="nickname" placeholder="닉네임">
+        </div>
+        <div class="field">
+            <label>한글이름</label>
+            <input id="form-kor-name" type="text" name="korName" placeholder="한글이름">
+        </div>
+        <div class="field">
+            <label>전화번호</label>
+            <input id="form-tel-num" type="text" name="telNum" placeholder="전화번호">
+        </div>
+        <input hidden id="form-account-id" type="number" name="accountId">
+        <div class="field">
+            <div class="ui selection dropdown" id="state-dropdown">
+                <input type="hidden" name="state" id="form-state">
+                <i class="dropdown icon"></i>
+                <div class="default text">상태</div>
+                <div class="menu">
+                    <div class="item" data-value="NORMAL">NORMAL</div>
+                    <div class="item" data-value="DELETE">DELETE</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="ui positive button" type="submit" formaction="/user/add">신규</button>
+        <button class="ui negative button" type="submit" formaction="/user/remove">삭제</button>
+        <button class="ui primary button" type="submit" formaction="/user/edit">수정</button>
+    </form>
+
+    <script>
+        $('.ui.dropdown').dropdown();
+        <!-- 테이블 내, 줄 클릭하면 아래 입력 폼으로 보내주는 소스 -->
+        $('#user-list tbody tr').click(function() {
+            const td = $(this).children();
+
+            const nickname = td.eq(0).text().trim();
+            const korName = td.eq(1).text().trim();
+            const telNum = td.eq(2).text().trim();
+            const state = td.eq(3).text().trim();
+            const accountId = td.eq(4).text().trim();
+
+
+            $('#form-nickname').val(nickname);
+            $('#form-kor-name').val(korName);
+            $('#form-tel-num').val(telNum);
+            $('#state-dropdown').dropdown('set selected', state);
+            $('#form-account-id').val(accountId);
+        })
+    </script>
+</div>
+
+
+{{>layout/bottom}}

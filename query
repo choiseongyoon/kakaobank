@@ -1,0 +1,15 @@
+//보내기 프로세스
+//과거 이력이 있는 친구 리스트 조회
+select RE_KKO_UID,
+       R_NAME,
+       R_NICK,
+       BOOKMARK,
+       T_DATE,
+       T_TIME
+from RE_HIS_TRANS
+order by
+(
+  case bookmark
+  when 'Y' then 1
+  else 3 end
+), t_date desc, t_time desc

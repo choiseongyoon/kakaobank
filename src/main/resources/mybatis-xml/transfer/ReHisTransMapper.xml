@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.ReHisTransMapper">
+
+    <select id="findAll" resultType="ReHisTrans">
+        <![CDATA[
+            SELECT  T_ID,
+                    RE_KKO_UID,
+                    R_NAME,
+                    R_NICK,
+                    BOOKMARK,
+                    T_DATE,
+                    T_TIME
+            FROM RE_HIS_TRANS
+            order by T_DATE;
+        ]]>
+    </select>
+
+<!--    <select id="findByNickname"-->
+<!--            resultType="Account">-->
+<!--        <![CDATA[-->
+<!--            SELECT ACCOUNT_ID-->
+<!--                  ,NICKNAME-->
+<!--                  ,KOR_NAME-->
+<!--                  ,TEL_NUM-->
+<!--                  ,STATE-->
+<!--                  ,CREATED_AT-->
+<!--                  ,MODIFIED_AT-->
+<!--            FROM ACCOUNT-->
+<!--            WHERE NICKNAME = #{nickname}-->
+<!--        ]]>-->
+<!--    </select>-->
+
+    <select id="findById"
+            resultType="ReHisTrans">
+        <![CDATA[
+            SELECT T_ID,
+                    RE_KKO_UID,
+                    R_NAME,
+                    R_NICK,
+                    BOOKMARK,
+                    T_DATE,
+                    T_TIME
+            FROM re_his_trans
+            WHERE T_ID = #{tId}
+        ]]>
+    </select>
+
+    <insert id="insert"
+            parameterType="ReHisTrans">
+        <![CDATA[
+            INSERT INTO re_his_trans
+            (
+                 RE_KKO_UID,
+                 R_NAME,
+                 R_NICK,
+                 BOOKMARK,
+                 T_DATE,
+                 T_TIME
+            )
+            VALUES
+            (
+                #{reKkoUid}
+                ,#{rName}
+                ,#{rNick}
+                ,#{bookmark}
+                ,#{tDate}
+                ,#{tTime}
+            )
+        ]]>
+    </insert>
+
+    <update id="update"
+            parameterType="ReHisTrans">
+        <![CDATA[
+            UPDATE re_his_trans
+            SET r_name = #{rName}
+               ,r_nick = #{rNick}
+               ,t_id  = #{tId}
+               ,BOOKMARK    = #{bookmark}
+
+            WHERE T_ID = #{tId}
+        ]]>
+    </update>
+
+</mapper>

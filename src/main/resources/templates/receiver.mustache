@@ -1,0 +1,112 @@
+{{>layout/top}}
+
+<h2 class="ui dividing header">친구 리스트</h2>
+
+{{#errorMessage}}
+    <div class="ui negative message">
+        <i class="close icon"></i>
+        <div class="header">
+            오류!
+        </div>
+        <ul class="list">
+            {{#messages}}
+                <li>{{.}}</li>
+            {{/messages}}
+        </ul>
+    </div>
+{{/errorMessage}}
+
+<table class="ui selectable celled striped table" id="friend-list">
+    <thead>
+    <tr>
+        <th>친구이름</th>
+        <th>닉네임</th>
+        <th>즐겨찾기여부</th>
+        <th>카카오uid</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 사용자 반복 출력
+     데이터가 있고, 순회형 자료구조면
+     반복해서 처리해준다.
+    -->
+    {{#transactions}}
+        <tr>
+            <td>
+                <!-- 사용자 반복 출력
+                    객체 내부의 변수를 가져온다
+                -->
+                {{rName}}
+            </td>
+            <td>
+                {{rNick}}
+            </td>
+            <td>
+                {{bookmark}}
+            </td>
+            <td>
+                {{reKkoUid}}
+            </td>
+        </tr>
+    {{/transactions}}
+    </tbody>
+</table>
+
+<div>
+    <!-- 사용자 추가삭제 부분 -->
+    <form class="ui form" method="post">
+<!--        <div class="field">-->
+<!--            <label>카톡uid</label>-->
+<!--            <input id="form-kakaouid" type="text" name="reKkaoUid" placeholder="카톡uid">-->
+<!--        </div>-->
+<!--        <div class="field">-->
+<!--            <label>친구이름</label>-->
+<!--            <input id="form-name" type="text" name="rName" placeholder="친구이름">-->
+<!--        </div>-->
+<!--        <div class="field">-->
+<!--            <label>닉네임</label>-->
+<!--            <input id="form-nickname" type="text" name="rNick" placeholder="닉네임">-->
+<!--        </div>-->
+
+        <input id="form-rName" type="hidden" name="rName" placeholder="실명입력">
+        <div class="field">
+            <input  id="form-kakaouid" type="text" name="reKkoUid" placeholder="카톡 id">
+            <input  id="form-nickname" type="text" name="rNick" placeholder="닉네임">
+        </div>
+
+<!--        <div class="field">-->
+<!--            <div class="ui selection dropdown" id="bookmark-dropdown">-->
+<!--                <input type="hidden" name="bookmark" id="form-state">-->
+<!--                <i class="dropdown icon"></i>-->
+<!--                <div class="default text">즐겨찾기여부</div>-->
+<!--                <div class="menu">-->
+<!--                    <div class="item" data-value="Y">여</div>-->
+<!--                    <div class="item" data-value="N">부</div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <button class="ui positive button" type="submit" formaction="/trans/add">신규</button>-->
+<!--        <button class="ui negative button" type="submit" formaction="/user/remove">삭제</button>-->
+        <button class="ui primary button" type="submit" formaction="/send/re-choice">확인</button>
+    </form>
+
+    <script>
+        $('.ui.dropdown').dropdown();
+        <!-- 테이블 내, 줄 클릭하면 아래 입력 폼으로 보내주는 소스 -->
+        $('#friend-list tbody tr').click(function() {
+            $('input[name=rName]').attr('type', "show");
+            const td = $(this).children();
+
+            const rName = td.eq(0).text().trim();
+            const rNick = td.eq(1).text().trim();
+            const reKkaoUid = td.eq(3).text().trim();
+
+            $('#form-rName').val(rName);
+            $('#form-nickname').val(rNick);
+            $('#form-kakaouid').val(reKkaoUid);
+        })
+    </script>
+</div>
+
+{{>layout/bottom}}
