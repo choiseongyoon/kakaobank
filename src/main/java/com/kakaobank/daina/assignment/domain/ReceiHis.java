@@ -2,6 +2,7 @@ package com.kakaobank.daina.assignment.domain;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ReceiHis {
     private String reKkoUid;
@@ -72,4 +73,8 @@ public class ReceiHis {
     }
 
 
+    public void edit(String t_date, String t_time) {
+        this.tDate = LocalDate.parse(t_date, DateTimeFormatter.ISO_DATE);
+        this.tTime = LocalTime.parse(t_time, DateTimeFormatter.ISO_TIME);
+    }
 }

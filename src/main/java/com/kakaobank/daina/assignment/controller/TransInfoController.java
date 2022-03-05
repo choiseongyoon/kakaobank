@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -62,9 +64,14 @@ public class TransInfoController {
     }
     //이체 실행 (이체구분코드 update)
     @PostMapping("/send/edittcode")
-    public String editTcode() {
-        transInfoService.editTcode(tId);
+    public String editTcode(RedirectAttributes redirectAttributes) {
+        HashMap ob =transInfoService.editTcode(tId);
 
-        return "successtrans";
+        redirectAttributes.addAttribute("re_kko_uid", ob.get("re_kko_uid"));
+        System.out.println(ob.get("re_kko_uid"));
+        redirectAttributes.addAttribute("t_date", ob.get("t_date"));
+        redirectAttributes.addAttribute("t_time", ob.get("t_time"));
+
+        return "redirect:/send/editreceihis";
     }
 }

@@ -42,6 +42,7 @@ public class ReceiverController {
         //다음 페이지로 변경하기
         redirectAttributes.addAttribute("t_id", ob.get("t_id"));
         redirectAttributes.addAttribute("bacc_id", ob.get("bacc_id"));
+
         return "redirect:/send/viewamount";
     }
 

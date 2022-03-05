@@ -49,7 +49,7 @@ public class TransInfoService {
     }
 
     @Transactional
-    public void editTcode(String t_id) {
+    public HashMap editTcode(String t_id) {
 
         SimTransDetail byId = transInfoMapper.findById(Long.parseLong(t_id));
         if(byId == null) {
@@ -59,5 +59,15 @@ public class TransInfoService {
         byId.editTcode();
 
         transInfoMapper.updatetCode(byId);
+
+        HashMap<String, String> ob = new HashMap<String, String>();
+        ob.put("re_kko_uid", byId.getReKkoUid());
+        ob.put("t_date", String.valueOf(byId.gettDate()));
+        ob.put("t_time", String.valueOf(byId.gettTime()));
+
+        System.out.println(byId.getReKkoUid());
+
+        return ob;
     }
+
 }

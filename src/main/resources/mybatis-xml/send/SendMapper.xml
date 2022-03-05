@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.SendMapper">
+
+    <select id="findById"
+            resultType="ReceiHis">
+        <![CDATA[
+            SELECT RE_KKO_UID
+                    ,R_NAME
+                    ,R_NICK
+                    ,BOOKMARK
+                    ,T_DATE
+                    ,T_TIME
+            FROM RE_HIS_TRANS
+            WHERE RE_KKO_UID = #{reKkoUid}
+        ]]>
+    </select>
+    <update id="update"
+            parameterType="ReceiHis">
+        <![CDATA[
+            UPDATE RE_HIS_TRANS
+            SET T_DATE = #{tDate},
+                T_TIME = #{tTime}
+            WHERE RE_KKO_UID = #{reKkoUid}
+        ]]>
+    </update>
+
+</mapper>

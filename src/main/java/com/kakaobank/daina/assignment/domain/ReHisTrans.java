@@ -1,9 +1,12 @@
 package com.kakaobank.daina.assignment.domain;
 
+import org.apache.tomcat.jni.Local;
+
 import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ReHisTrans {
     private Long tId;
@@ -94,6 +97,7 @@ public class ReHisTrans {
                 LocalDate.now(),
                 LocalTime.now());
     }
+
     public void edit(String rName, String rNick, String bookmark) {
         this.rName = rName;
         this.rNick = rNick;
