@@ -164,10 +164,8 @@ public class SimTransDetail {
     }
 
     public static SimTransDetail createNew(String rName, String rNick, String reKkoUid) {
-
-        return new SimTransDetail(
-                null,
-                null,
+        SimTransDetail simTransDetail = new SimTransDetail(null,
+                "352119811",
                 null,
                 null,
                 rNick,
@@ -180,9 +178,9 @@ public class SimTransDetail {
                 null,
                 null,
                 "C0",
-                "N"
+                "N");
 
-        );
+        return simTransDetail;
     }
 
 }

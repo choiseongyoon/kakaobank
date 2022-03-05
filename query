@@ -13,3 +13,56 @@ order by
   when 'Y' then 1
   else 3 end
 ), t_date desc, t_time desc
+
+INSERT INTO SIM_TRANS_DETAIL (
+                T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE )
+            VALUES (
+                #{tId}
+                ,#{accId}
+                ,#{ctmId}
+                ,#{ctmName}
+                ,#{rNick}
+                ,#{rName}
+                ,#{reKkoUid}
+                ,#{tAmount}
+                ,#{commission}
+                ,#{tDate}
+                ,#{tTime}
+                ,#{rDate}
+                ,#{rTime}
+                ,#{tCode}
+                ,#{cancelCode}
+            )
+
+
+CREATE TABLE IF NOT EXISTS `acc_im` (
+  `bacc_id` VARCHAR(45) NOT NULL,
+  `ctm_id` VARCHAR(45) NULL,
+  `bacc_date` DATE NULL,
+  `bacc_time` TIME NULL,
+  `bacc_part` VARCHAR(45) NULL,
+  `bacc_balance` INT NULL,
+  `card_issue` VARCHAR(45) NULL,
+  `card_num` VARCHAR(45) NULL,
+  `bacc_pass` INT NULL,
+  `bacc_status` VARCHAR(45) NULL,
+  PRIMARY KEY (`bacc_id`));
+
+  INSERT INTO ACC_IM
+  VALUES(
+  '352119811', '234', '20220304', '03:46', '보통예금', '30000', 'Y', '3422433', '1234', 'NORMAL'
+  );

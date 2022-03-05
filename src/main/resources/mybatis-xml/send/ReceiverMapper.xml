@@ -24,7 +24,7 @@
         ]]>
     </select>
     <insert id="insert"
-            parameterType="SimTransDetail">
+            parameterType="SimTransDetail" useGeneratedKeys="true" keyProperty="tId" keyColumn="t_id">
         <![CDATA[
             INSERT INTO SIM_TRANS_DETAIL (
                 T_ID ,
