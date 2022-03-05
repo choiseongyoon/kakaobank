@@ -33,9 +33,9 @@ public class ReceiverService {
     public HashMap createReceiver(CreateRnameIn createRnameIn) {
         //form에 입력된 값 SimTransDetail 객체에 대입
         SimTransDetail simTransDetail = SimTransDetail.createNew(
+                createRnameIn.getrName(),
                 createRnameIn.getrNick(),
-                createRnameIn.getReKkoUid(),
-                createRnameIn.getrName()
+                createRnameIn.getReKkoUid()
         );
         //객체 넘겨 mapper통해서 db에 값 insert
         receiverMapper.insert(simTransDetail);

@@ -23,5 +23,69 @@
         ]]>
     </select>
 
+    <select id="findById"
+            resultType="SimTransDetail">
+        <![CDATA[
+            SELECT T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE
+            FROM SIM_TRANS_DETAIL
+            WHERE T_ID = #{tId}
+        ]]>
+    </select>
+    <update id="update"
+            parameterType="SimTransDetail">
+        <![CDATA[
+            UPDATE SIM_TRANS_DETAIL
+            SET T_AMOUNT = #{tAmount}
+            WHERE T_ID = #{tId}
+        ]]>
+    </update>
 
+    <select id="findDetail" resultType="SimTransDetail">
+        <![CDATA[
+            SELECT T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE
+            FROM SIM_TRANS_DETAIL
+            WHERE T_ID = #{t_id}
+        ]]>
+    </select>
+    <update id="updatetCode"
+            parameterType="SimTransDetail">
+        <![CDATA[
+            UPDATE SIM_TRANS_DETAIL
+            SET COMMISSION = #{commission},
+                T_DATE = #{tDate},
+                T_TIME = #{tTime},
+                R_DATE = #{rDate},
+                R_TIME = #{rTime},
+                T_CODE = #{tCode}
+            WHERE T_ID = #{tId}
+        ]]>
+    </update>
 </mapper>

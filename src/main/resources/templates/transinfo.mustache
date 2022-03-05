@@ -1,0 +1,107 @@
+{{>layout/top}}
+
+{{#errorMessage}}
+    <div class="ui negative message">
+        <i class="close icon"></i>
+        <div class="header">
+            오류!
+        </div>
+        <ul class="list">
+            {{#messages}}
+                <li>{{.}}</li>
+            {{/messages}}
+        </ul>
+    </div>
+{{/errorMessage}}
+<div>
+    {{#transactions}}
+        <h2 id="amount" class="ui dividing header">{{baccBalance}}</h2>
+    {{/transactions}}
+
+
+
+    <form class="ui form" method="post">
+        <h2 id="out-bacc-amount" type="text">초과 여부 메시지(미완)</h2>
+        <input id="form-bacc-amount" type="text" name="tAmount" placeholder="금액입력"/>
+        <button name="amountbutton" class="ui primary button" type="submit" formaction="/send/editamount">확인</button>
+    </form>
+
+<!--    <script>-->
+<!--        $('#form-bacc-amount').click(function() {-->
+
+<!--            alert( "Handler for .keyup() called." );-->
+<!--            var = $("h2").text();-->
+<!--        });-->
+<!--    </script>-->
+
+
+<!--    <script>-->
+<!--        $('.ui.dropdown').dropdown();-->
+<!--        &lt;!&ndash; 테이블 내, 줄 클릭하면 아래 입력 폼으로 보내주는 소스 &ndash;&gt;-->
+<!--        $('#friend-list tbody tr').click(function() {-->
+<!--            $('input[name=rName]').attr('type', "show");-->
+<!--            const td = $(this).children();-->
+
+<!--            const rName = td.eq(0).text().trim();-->
+<!--            const rNick = td.eq(1).text().trim();-->
+<!--            const reKkaoUid = td.eq(3).text().trim();-->
+
+<!--            $('#form-rName').val(rName);-->
+<!--            $('#form-nickname').val(rNick);-->
+<!--            $('#form-kakaouid').val(reKkaoUid);-->
+<!--        })-->
+<!--    </script>-->
+</div>
+<div id="noneDiv1">
+    {{#transactions2}}
+        <tr>
+            <td>
+                {{rName}}
+            </td>
+            <td>
+                {{rNick}}
+            </td>
+            <td>
+                {{tAmount}}
+            </td>
+
+        </tr>
+    {{/transactions2}}
+    <form class="ui form" method="get">
+        <button class="ui primary button" value="hidden" type="submit"  >이체 내용 취소</button>
+    </form>
+    <button name="checkbutton" class="ui primary button" value="hidden" type="submit" >이체 내용 확인</button>
+
+</div>
+<div id="noneDiv2" style="display: none;">
+    <form class="ui form" method="post">
+        <input name="form-bacc-amount" name="ipassword" type="password" placeholder="비밀번호 입력"/>
+
+        <button aria-hidden="true" name="passbutton" class="ui primary button" type="submit" formaction="/send/edittcode">확인</button>
+    </form>
+</div>
+
+<script>
+    $('button[name=checkbutton]').click(function() {
+
+            if($("#noneDiv2").css("display") == "none"){
+
+                $('#noneDiv2').show();
+            }
+    });
+</script>
+
+{{>layout/bottom}}
+
+<!--const var = $('#amount').text();-->
+<!--$('input[name=form-bacc-amount]').attr('type', "show");-->
+<!--$('button[name=passbutton]').attr('aria-hidden', "false");-->
+<!--console.log("입장");-->
+
+<!--$('#form-bacc-amount').keyup(function() {-->
+<!--console.log("키보드 입력");-->
+
+<!--if(parseInt(var) < parseInt($('#form-bacc-amount').val())){-->
+<!--$('#out-bacc-amount').text( "금액 초과" );-->
+<!--}-->
+<!--});-->
