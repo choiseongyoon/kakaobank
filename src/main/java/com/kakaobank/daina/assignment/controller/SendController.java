@@ -30,10 +30,12 @@ public class SendController {
     @RequestMapping("/send/editreceihis")
     public String editreceihis(@RequestParam(required = false) String re_kko_uid,
                                @RequestParam(required = false) String t_date,
-                               @RequestParam(required = false) String t_time
+                               @RequestParam(required = false) String t_time,
+                               @RequestParam(required = false) String r_name,
+                               @RequestParam(required = false) String r_nick
                                ) {
 
-        int var = sendService.editreceihis(re_kko_uid, t_date, t_time);
+        sendService.editreceihis(re_kko_uid, t_date, t_time, r_name, r_nick);
 
         return "successtrans";
     }

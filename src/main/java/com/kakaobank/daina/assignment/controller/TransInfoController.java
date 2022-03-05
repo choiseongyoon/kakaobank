@@ -68,7 +68,8 @@ public class TransInfoController {
         HashMap ob =transInfoService.editTcode(tId);
 
         redirectAttributes.addAttribute("re_kko_uid", ob.get("re_kko_uid"));
-        System.out.println(ob.get("re_kko_uid"));
+        redirectAttributes.addAttribute("r_name", ob.get("r_name"));
+        redirectAttributes.addAttribute("r_nick", ob.get("r_nick"));
         redirectAttributes.addAttribute("t_date", ob.get("t_date"));
         redirectAttributes.addAttribute("t_time", ob.get("t_time"));
 

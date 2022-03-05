@@ -23,17 +23,18 @@ public class SendService {
     }
 
     @Transactional
-    public int editreceihis(String re_kko_uid, String t_date, String t_time) {
+    public void editreceihis(String re_kko_uid, String t_date, String t_time, String r_name, String r_nick) {
 
         ReceiHis byId = sendMapper.findById(re_kko_uid);
         if(byId == null) {
-            return 0;
+            //없으면 insert
+            sendMapper.insert(ReceiHis.createNew(re_kko_uid, t_date, t_time, r_name, r_nick));
         }
 
+        //있으면 update
         byId.edit(t_date, t_time);
         sendMapper.update(byId);
 
-        return 1;
     }
 
 

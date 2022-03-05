@@ -62,6 +62,8 @@ public class TransInfoService {
 
         HashMap<String, String> ob = new HashMap<String, String>();
         ob.put("re_kko_uid", byId.getReKkoUid());
+        ob.put("r_name", byId.getrName());
+        ob.put("r_nick", byId.getrNick());
         ob.put("t_date", String.valueOf(byId.gettDate()));
         ob.put("t_time", String.valueOf(byId.gettTime()));
 

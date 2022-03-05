@@ -13,4 +13,6 @@ public interface SendMapper {
     ReceiHis findById(String re_kko_uid);
 
     void update(ReceiHis receiHis);
+
+    void insert(ReceiHis receiHis);
 }

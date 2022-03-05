@@ -72,6 +72,18 @@ public class ReceiHis {
         this.tTime = tTime;
     }
 
+    public static ReceiHis createNew(String reKkoUid, String tDate, String tTime, String rName, String rNick) {
+        ReceiHis receiHis = new ReceiHis(
+                reKkoUid,
+                rName,
+                rNick,
+                "N",
+                LocalDate.parse(tDate, DateTimeFormatter.ISO_DATE),
+                LocalTime.parse(tTime, DateTimeFormatter.ISO_TIME)
+        );
+
+        return receiHis;
+    }
 
     public void edit(String t_date, String t_time) {
         this.tDate = LocalDate.parse(t_date, DateTimeFormatter.ISO_DATE);

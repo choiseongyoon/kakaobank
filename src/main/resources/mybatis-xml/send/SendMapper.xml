@@ -27,5 +27,28 @@
             WHERE RE_KKO_UID = #{reKkoUid}
         ]]>
     </update>
+    <insert id="insert"
+            parameterType="ReceiHis">
+        <![CDATA[
+            INSERT INTO RE_HIS_TRANS (
+                RE_KKO_UID
+                ,R_NAME
+                ,R_NICK
+                ,BOOKMARK
+                ,T_DATE
+                ,T_TIME
+                 )
+            VALUES (
+                #{reKkoUid}
+                ,#{rName}
+                ,#{rNick}
+                ,#{bookmark}
+                ,#{tDate}
+                ,#{tTime}
+                
+            )
+
+        ]]>
+    </insert>
 
 </mapper>
