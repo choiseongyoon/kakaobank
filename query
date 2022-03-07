@@ -66,3 +66,18 @@ CREATE TABLE IF NOT EXISTS `acc_im` (
   VALUES(
   '352119811', '234', '20220304', '03:46', '보통예금', '30000', 'Y', '3422433', '1234', 'NORMAL'
   );
+
+  CREATE TABLE IF NOT EXISTS `history_sim_trans_detail` (
+    `t_id` INT NOT NULL,
+    `serial_num` INT NOT NULL AUTO_INCREMENT,
+    `acc_id` VARCHAR(45) NULL,
+    `ctm_id` VARCHAR(45) NULL,
+    `r_name` VARCHAR(45) NULL,
+    `r_kko_uid` VARCHAR(45) NULL,
+    `t_amount` VARCHAR(45) NULL,
+    `commission` VARCHAR(45) NULL,
+    `n_date` DATE NULL,
+    `n_time` TIME NULL,
+    `t_code` VARCHAR(45) NULL,
+    `r_code` VARCHAR(45) NULL,
+    PRIMARY KEY (`t_id`));

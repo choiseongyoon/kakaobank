@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.AccInfoMapper">
+
+    <select id="findBaccAll" resultType="AccInfo">
+        <![CDATA[
+            select  BACC_ID
+                ,CTM_ID
+                ,BACC_DATE
+                ,BACC_TIME
+                ,BACC_PART
+                ,BACC_BALANCE
+                ,CARD_ISSUE
+                ,CARD_NUM
+                ,BACC_PASS
+                ,BACC_STATUS
+            from ACC_IM
+            where bacc_id = #{bacc_id}
+        ]]>
+    </select>
+
+</mapper>

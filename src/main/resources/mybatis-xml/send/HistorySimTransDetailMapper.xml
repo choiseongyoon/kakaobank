@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.HistorySimTransDetailMapper">
+
+    <insert id="insert"
+            parameterType="HistorySimTransDetail">
+        <![CDATA[
+            INSERT INTO HISTORY_SIM_TRANS_DETAIL
+            (
+                T_ID
+                ,SERIAL_NUM
+                ,ACC_ID
+                ,CTM_ID
+                ,R_NAME
+                ,RE_KKO_UID
+                ,T_AMOUNT
+                ,COMMISSION
+                ,N_DATE
+                ,N_TIME
+                ,T_CODE
+                ,R_CODE
+            )
+            VALUES
+            (
+                #{tId}
+                ,#{serialNum}
+                ,#{accId}
+                ,#{ctmId}
+                ,#{rName}
+                ,#{reKkoUid}
+                ,#{tAmount}
+                ,#{commission}
+                ,#{nDate}
+                ,#{nTime}
+                ,#{tCode}
+                ,#{rCode}
+            )
+        ]]>
+    </insert>
+</mapper>

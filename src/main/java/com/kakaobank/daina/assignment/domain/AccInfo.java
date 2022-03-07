@@ -110,4 +110,7 @@ public class AccInfo {
     public void setBaccStatus(String baccStatus) {
         this.baccStatus = baccStatus;
     }
+    public void editMoney(Long baccPass){
+        this.baccPass = baccPass;
+    }
 }

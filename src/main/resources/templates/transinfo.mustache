@@ -14,10 +14,19 @@
     </div>
 {{/errorMessage}}
 <div>
-    {{#transactions}}
-        <h2 id="amount" class="ui dividing header">{{baccBalance}}</h2>
-    {{/transactions}}
 
+    {{#transactions}}
+            <h2 id="bacc_id" name="baccId" class="ui dividing header">{{baccId}}</h2>
+            <h2 id="ctm_id" name="ctmId" class="ui dividing header">{{ctmId}}</h2>
+            <h2 id="bacc_balance" name="baccBalance" class="ui dividing header">{{baccBalance}}</h2>
+            <h2 id="bacc_status" name="baccStatus" class="ui dividing header">{{baccStatus}}</h2>
+    {{/transactions}}
+    {{#transactions2}}
+            <h2 id="t_id" name="tId" class="ui dividing header">{{tId}}</h2>
+            <h2 id="r_name" name="rName" class="ui dividing header">{{rName}}</h2>
+            <h2 id="r_nick" name="rNick" class="ui dividing header">{{rNick}}</h2>
+            <h2 id="re_kko_uid" name="reKkoUid" class="ui dividing header">{{reKkoUid}}</h2>
+    {{/transactions2}}
 
 
     <form class="ui form" method="post">
@@ -51,44 +60,47 @@
 <!--            $('#form-kakaouid').val(reKkaoUid);-->
 <!--        })-->
 <!--    </script>-->
-</div>
-<div id="noneDiv1">
-    {{#transactions2}}
-        <tr>
-            <td>
-                {{rName}}
-            </td>
-            <td>
-                {{rNick}}
-            </td>
-            <td>
-                {{tAmount}}
-            </td>
+<!--</div>-->
+<!--<div id="noneDiv1">-->
+<!--
+    <form class="ui form" method="get">-->
+<!--        <button class="ui primary button" value="hidden" type="submit"  >이체 내용 취소</button>-->
+<!--    </form>-->
+<!--    <button name="checkbutton" class="ui primary button" value="hidden" type="submit" >이체 내용 확인</button>-->
 
-        </tr>
-    {{/transactions2}}
-    <form class="ui form" method="get">
-        <button class="ui primary button" value="hidden" type="submit"  >이체 내용 취소</button>
-    </form>
-    <button name="checkbutton" class="ui primary button" value="hidden" type="submit" >이체 내용 확인</button>
+<!--</div>-->
+<!--<div id="noneDiv2" style="display: none;">-->
+<!--   -->
+<!--    <form class="ui form" method="post">-->
+<!--        <input name="form-bacc-amount" name="ipassword" type="password" placeholder="비밀번호 입력"/>-->
 
-</div>
-<div id="noneDiv2" style="display: none;">
-    <form class="ui form" method="post">
-        <input name="form-bacc-amount" name="ipassword" type="password" placeholder="비밀번호 입력"/>
+<!--        <button aria-hidden="true" name="passbutton" class="ui primary button" type="submit" formaction="/send/edittcode">확인</button>-->
+<!--    </form>-->
+<!--</div>-->
+<div class="ui modal">
+    <div class="header">Header</div>
 
-        <button aria-hidden="true" name="passbutton" class="ui primary button" type="submit" formaction="/send/edittcode">확인</button>
-    </form>
+    <div class="actions">
+        <div class="ui approve button">Approve</div>
+        <div class="ui cancel button">Cancel</div>
+    </div>
 </div>
 
 <script>
-    $('button[name=checkbutton]').click(function() {
+    $('button[name=amountbutton]').click(function() {
 
-            if($("#noneDiv2").css("display") == "none"){
-
-                $('#noneDiv2').show();
-            }
+            $('.ui.modal')
+                .modal('show')
+            ;
     });
+<!--    $('button[name=checkbutton]').click(function() {-->
+
+<!--            if($("#noneDiv2").css("display") == "none"){-->
+
+<!--                $('#noneDiv2').show();-->
+<!--            }-->
+<!--    });-->
+
 </script>
 
 {{>layout/bottom}}

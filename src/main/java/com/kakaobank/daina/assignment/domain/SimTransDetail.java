@@ -195,4 +195,5 @@ public class SimTransDetail {
         this.rTime = LocalTime.now().minusHours(1);
         this.tCode = "C1";
     }
+
 }

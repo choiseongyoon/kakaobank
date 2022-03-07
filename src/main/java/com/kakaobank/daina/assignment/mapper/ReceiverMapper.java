@@ -13,4 +13,6 @@ public interface ReceiverMapper {
     List<ReceiHis> findAll();
 
     void insert(SimTransDetail simTransDetail);
+
+
 }

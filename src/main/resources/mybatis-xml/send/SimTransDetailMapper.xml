@@ -3,23 +3,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kakaobank.daina.assignment.mapper.TransInfoMapper">
+<mapper namespace="com.kakaobank.daina.assignment.mapper.SimTransDetailMapper">
 
-    <select id="findAll" resultType="AccInfo">
+    <select id="findBaccAll" resultType="AccInfo">
         <![CDATA[
-            select
-                    BACC_ID
-                    ,CTM_ID
-                    ,BACC_DATE
-                    ,BACC_TIME
-                    ,BACC_PART
-                    ,BACC_BALANCE
-                    ,CARD_ISSUE
-                    ,CARD_NUM
-                    ,BACC_PASS
-                    ,BACC_STATUS
+            select  BACC_ID
+                ,CTM_ID
+                ,BACC_DATE
+                ,BACC_TIME
+                ,BACC_PART
+                ,BACC_BALANCE
+                ,CARD_ISSUE
+                ,CARD_NUM
+                ,BACC_PASS
+                ,BACC_STATUS
             from ACC_IM
             where bacc_id = #{bacc_id}
+        ]]>
+    </select>
+
+    <select id="findTransAll" resultType="SimTransDetail">
+        <![CDATA[
+            SELECT T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE
+            FROM SIM_TRANS_DETAIL
+            WHERE T_ID = #{t_id}
         ]]>
     </select>
 
