@@ -132,4 +132,27 @@
 
         ]]>
     </insert>
+    <select id="findSend" resultType="SimTransDetail">
+        <![CDATA[
+            SELECT T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE
+            FROM SIM_TRANS_DETAIL
+            WHERE RE_KKO_UID = #{reKkoUid} AND
+                T_CODE = "C1"
+
+        ]]>
+    </select>
 </mapper>

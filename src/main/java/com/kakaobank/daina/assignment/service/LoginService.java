@@ -48,22 +48,12 @@ public class LoginService {
     }
 
     @Transactional(propagation= Propagation.REQUIRES_NEW)
-    public void verifyPassword(Long inputBaccPass, String baccId){
+    public boolean verifyPassword(Long inputBaccPass, String baccId) {
         AccInfo accInfo = accInfoMapper.findBaccAll(baccId);
-        if(accInfo == null){
+        if (accInfo == null) {
             throw new BizException("존재하지 않은 계좌번호입니다.");
         }
 
-        //오버로딩
-        try {
-            boolean check = this.verifyPassword(inputBaccPass, accInfo);
-
-            if(!check) {
-                throw new BizException("비밀번호가 일치하지 않습니다.");
-            }
-
-        } catch (PasswordCountException e) {
-            throw new BizException("비밀번호 확인 횟수를 초과했습니다.");
-        }
+        return this.verifyPassword(inputBaccPass, accInfo);
     }
 }

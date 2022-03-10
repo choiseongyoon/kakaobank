@@ -11,6 +11,8 @@ public interface SimTransDetailMapper {
 
     List<SimTransDetail> findTransAll(Long t_id);
 
+    List<SimTransDetail> findSend(String reKkoUid);
+
     SimTransDetail findById(Long tId);
 
     void update(SimTransDetail simTransDetail);

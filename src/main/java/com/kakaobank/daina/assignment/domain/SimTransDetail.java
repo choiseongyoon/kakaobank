@@ -166,7 +166,7 @@ public class SimTransDetail {
 
     public static SimTransDetail createNew(String rName, String rNick, String reKkoUid) {
         SimTransDetail simTransDetail = new SimTransDetail(null,
-                "352119811",
+                "32333",
                 null,
                 null,
                 rNick,

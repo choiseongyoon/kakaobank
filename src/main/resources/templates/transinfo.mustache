@@ -14,24 +14,36 @@
     </div>
 {{/errorMessage}}
 
-    <div style="display: none;">
         {{#transactions}}
+            <div style="display: none;">
                 <span id="bacc_id" name="baccId" class="ui dividing header">{{baccId}}</span>
                 <span id="ctm_id" name="ctmId" class="ui dividing header">{{ctmId}}</span>
+            </div>
                 <span id="bacc_balance" name="baccBalance" class="ui dividing header">{{baccBalance}}</span>
+            <div style="display: none;">
                 <span id="bacc_status" name="baccStatus" class="ui dividing header">{{baccStatus}}</span>
+            </div>
         {{/transactions}}
+
         {{#transactions2}}
+            <div style="display: none;">
                 <span id="t_id" name="tId" class="ui dividing header">{{tId}}</span>
                 <span id="r_name" name="rName" class="ui dividing header">{{rName}}</span>
                 <span id="r_nick" name="rNick" class="ui dividing header">{{rNick}}</span>
                 <span id="re_kko_uid" name="reKkoUid" class="ui dividing header">{{reKkoUid}}</span>
+            </div>
         {{/transactions2}}
-    </div>
+
+
+
+
 
     <form class="ui form" method="post">
-        <h2 id="out-bacc-amount" name="amountMessage" type="text">거래 가능</h2>
+
         <input id="form-bacc-amount" type="number" name="tAmount" placeholder="금액 입력"/>
+
+        <div class="ui pointing red basic label hidden" id="out-bacc-amount" name="amountMessage" type="text">송금 금액을 확인해주세요.</div>
+
         <input hidden id="form-password" type="number" name="baccPass" placeholder="비밀번호란"/>
         <input hidden id="form-t-id" type="number" name="tId" placeholder="아이디내려받을곳"/>
 
@@ -106,18 +118,17 @@
         })
 
     });
+
     $('#form-bacc-amount').keyup(function() {
         const baccBalance = $('span[name=baccBalance]').text();
         if(parseInt(baccBalance) < parseInt($('#form-bacc-amount').val())){
-            $('#out-bacc-amount').text( "송금 금액을 확인해주세요." );
+            $('#out-bacc-amount').removeClass('hidden');
             door = 0;
         }else{
-            $('#out-bacc-amount').text( "거래 가능" );
+            $('#out-bacc-amount').addClass('hidden');
             door = 1;
         }
     });
-
-
 </script>
 
 {{>layout/bottom}}

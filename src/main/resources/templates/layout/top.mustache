@@ -12,16 +12,20 @@
     </script>
     <link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css">
     <style>
-        .content-container {
-            margin: 20px;
+        .article {
+            padding: 20px 20px 20px 15rem
+        }
+        .hidden {
+            display: none;
         }
     </style>
     <script src="/semantic/semantic.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
+<div class="ui container">
     <div class="ui sidebar inverted vertical visible menu">
         {{>layout/sidebar}}
     </div>
     <div class="pusher">
-        <div class="ui container content-container">
+        <div class="article">

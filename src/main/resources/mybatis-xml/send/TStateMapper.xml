@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.TStateMapper">
+
+    <select id="getTstateId" resultType="java.lang.String">
+        <![CDATA[
+            SELECT LPAD(
+                    MOD(nextval('t_state_id'), 999999999), 10,'0') AS 't_state_id'
+            FROM DUAL
+        ]]>
+    </select>
+
+    <insert id="insert"
+            parameterType="TState">
+        <![CDATA[
+            INSERT INTO T_STATE (
+                    t_state_id,
+                    serial_num,
+                    t_id,
+                    n_date,
+                    n_time,
+                    pa_de_code,
+                    acc_sub_code,
+                    t_amount,
+                    s_sumup
+                 )
+            VALUES (
+                #{tStateId}
+                ,#{serialNum}
+                ,#{tId}
+                ,#{nDate}
+                ,#{nTime}
+                ,#{paDeCode}
+                ,#{accSubCode}
+                ,#{tAmount}
+                ,#{sSumup}
+
+            )
+
+        ]]>
+    </insert>
+</mapper>

@@ -22,16 +22,18 @@ public class TransInfoService {
     private final ReceiHisMapper receiHisMapper;
     private final HistorySimTransDetailMapper historySimTransDetailMapper;
     private final LoginService loginService;
+    private final AccountingService accountingService;
 
     private final Logger logger = LoggerFactory.getLogger(TransInfoService.class);
 
 
-    public TransInfoService(LoginService loginService, SimTransDetailMapper simTransDetailMapper, AccInfoMapper accInfoMapper, ReceiHisMapper receiHisMapper, HistorySimTransDetailMapper historySimTransDetailMapper) {
+    public TransInfoService(AccountingService accountingService, LoginService loginService, SimTransDetailMapper simTransDetailMapper, AccInfoMapper accInfoMapper, ReceiHisMapper receiHisMapper, HistorySimTransDetailMapper historySimTransDetailMapper) {
         this.accInfoMapper = accInfoMapper;
         this.simTransDetailMapper = simTransDetailMapper;
         this.receiHisMapper = receiHisMapper;
         this.historySimTransDetailMapper = historySimTransDetailMapper;
         this.loginService = loginService;
+        this.accountingService = accountingService;
     }
 
     public AccInfo findTransactions(String bacc_id) {
@@ -47,10 +49,9 @@ public class TransInfoService {
     }
 
 
-    //보내기 서비스
+    //보내기 서비스 한 트랙잭션
     @Transactional
     public void sendMoney(SendMoneyIn sendMoneyIn) {
-        System.out.println(sendMoneyIn.gettAmount());
 
         //간편이체내역 검증
         SimTransDetail byId = simTransDetailMapper.findById(sendMoneyIn.gettId());
@@ -75,7 +76,7 @@ public class TransInfoService {
         if(account == null) {
             throw new BizException("계좌가 존재하지 않습니다.");
         }
-        if(!account.getBaccStatus().equals("NORMAL")){
+        if(!(account.getBaccStatus().equals("NORMAL") | account.getBaccStatus().equals("normal"))){
             throw new BizException("거래가 불가능한 계좌입니다.");
         }
 
@@ -83,31 +84,39 @@ public class TransInfoService {
             throw new BizException("잔액 한도를 확인해주세요.");
         }
 
-//        // TODO: 2022-03-07 비밀번호 검증
+        //비밀번호 검증
         boolean check = loginService.verifyPassword(sendMoneyIn.getBaccPass(), account);
         if(check==false){
             throw new BizException("비밀번호가 일치하지 않습니다.");
         }
 
+        // 이체이력이 있는 친구 리스트 업데이트
+        updateFriendsList(byId);
+
         //송금하기 (=잔액 업데이트)
         account.editMoney(account.getBaccBalance()-sendMoneyIn.gettAmount());
         accInfoMapper.update(account);
 
+        //내역 업데이트
+        updateTransfer(sendMoneyIn, byId);
+
+        //회계처리호출(보내기 C1)
+        accountingService.accountingTransfer(byId, "C1");
+
+    }
+
+    private void updateTransfer(SendMoneyIn sendMoneyIn, SimTransDetail byId) {
         //간편이체거래내역 업데이트
         byId.editTcode(sendMoneyIn.gettAmount());
         simTransDetailMapper.updatetCode(byId);
-
-        // 이체이력이 있는 친구 리스트 업데이트
-        updateFriendsList(byId);
 
         //상세내역 insert
         historySimTransDetailMapper.insert(HistorySimTransDetail.createNew(byId.gettId(),
                 byId.getAccId(), byId.getCtmId(), byId.getrName(), byId.getReKkoUid(), byId.gettAmount(), byId.getCommission(), byId.gettDate(), byId.gettTime(),
                 byId.gettCode()));
-
-        System.out.println("완료");
     }
 
+    // 이체이력이 있는 친구 리스트 업데이트
     private void updateFriendsList(SimTransDetail byId) {
         ReceiHis receiHis = receiHisMapper.findById(byId.getReKkoUid());
         if(receiHis == null) {

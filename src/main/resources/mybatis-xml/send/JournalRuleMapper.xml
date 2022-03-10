@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.JournalRuleMapper">
+
+    <select id="findAll" resultType="JournalRule">
+        <![CDATA[
+            SELECT CASE_NUM
+                    ,SERIAL_NUM
+                    ,PA_DE_CODE
+                    ,ACC_SUB_CODE
+            FROM JOURNAL_RULE
+            WHERE CASE_NUM =#{caseNum}
+        ]]>
+    </select>
+
+</mapper>

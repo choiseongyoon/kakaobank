@@ -81,3 +81,11 @@ CREATE TABLE IF NOT EXISTS `acc_im` (
     `t_code` VARCHAR(45) NULL,
     `r_code` VARCHAR(45) NULL,
     PRIMARY KEY (`t_id`));
+
+    insert into JOURNAL_RULE
+    values(
+    'C1', NULL,
+    );
+
+    INSERT INTO JOURNAL_RULE
+    VALUES ('C1', NULL, 'DEPOSIT', 'ASC2');

@@ -43,4 +43,5 @@ public class ReceiverController {
         return "redirect:/send/viewamount";
     }
 
+
 }
