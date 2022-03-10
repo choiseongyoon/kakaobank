@@ -14,11 +14,12 @@ public class AccInfo {
     private String cardNum;
     private Long baccPass;
     private String baccStatus;
+    private Long cntVer;
 
     public AccInfo() {
     }
 
-    public AccInfo(String baccId, String ctmId, LocalDate baccDate, LocalTime baccTime, String baccPart, Long baccBalance, String cardIssue, String cardNum, Long baccPass, String baccStatus) {
+    public AccInfo(String baccId, String ctmId, LocalDate baccDate, LocalTime baccTime, String baccPart, Long baccBalance, String cardIssue, String cardNum, Long baccPass, String baccStatus, Long cntVer) {
         this.baccId = baccId;
         this.ctmId = ctmId;
         this.baccDate = baccDate;
@@ -29,6 +30,15 @@ public class AccInfo {
         this.cardNum = cardNum;
         this.baccPass = baccPass;
         this.baccStatus = baccStatus;
+        this.cntVer = cntVer;
+    }
+
+    public Long getCntVer() {
+        return cntVer;
+    }
+
+    public void setCntVer(Long cntVer) {
+        this.cntVer = cntVer;
     }
 
     public String getBaccId() {
@@ -110,7 +120,12 @@ public class AccInfo {
     public void setBaccStatus(String baccStatus) {
         this.baccStatus = baccStatus;
     }
-    public void editMoney(Long baccPass){
-        this.baccPass = baccPass;
+
+    public void editMoney(Long baccBalance){
+        this.baccBalance = baccBalance;
+    }
+
+    public void editCntVer(Long cntVer){
+        this.cntVer = cntVer;
     }
 }

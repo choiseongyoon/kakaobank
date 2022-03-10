@@ -3,7 +3,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kakaobank.daina.assignment.mapper.SendMapper">
+<mapper namespace="com.kakaobank.daina.assignment.mapper.ReceiHisMapper">
+
+    <select id="findAll" resultType="ReceiHis">
+        <![CDATA[
+            select RE_KKO_UID,
+                   R_NAME,
+                   R_NICK,
+                   BOOKMARK,
+                   T_DATE,
+                   T_TIME
+            from RE_HIS_TRANS
+            order by
+            (
+              case bookmark
+              when 'Y' then 1
+              else 3 end
+            ), t_date desc, t_time desc
+            limit 30
+        ]]>
+    </select>
 
     <select id="findById"
             resultType="ReceiHis">
@@ -50,5 +69,6 @@
 
         ]]>
     </insert>
+
 
 </mapper>

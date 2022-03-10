@@ -5,23 +5,6 @@
 
 <mapper namespace="com.kakaobank.daina.assignment.mapper.SimTransDetailMapper">
 
-    <select id="findBaccAll" resultType="AccInfo">
-        <![CDATA[
-            select  BACC_ID
-                ,CTM_ID
-                ,BACC_DATE
-                ,BACC_TIME
-                ,BACC_PART
-                ,BACC_BALANCE
-                ,CARD_ISSUE
-                ,CARD_NUM
-                ,BACC_PASS
-                ,BACC_STATUS
-            from ACC_IM
-            where bacc_id = #{bacc_id}
-        ]]>
-    </select>
-
     <select id="findTransAll" resultType="SimTransDetail">
         <![CDATA[
             SELECT T_ID ,
@@ -105,8 +88,48 @@
                 T_TIME = #{tTime},
                 R_DATE = #{rDate},
                 R_TIME = #{rTime},
-                T_CODE = #{tCode}
+                T_CODE = #{tCode},
+                T_AMOUNT  = #{tAmount}
             WHERE T_ID = #{tId}
         ]]>
     </update>
+    <insert id="insert"
+            parameterType="SimTransDetail" useGeneratedKeys="true" keyProperty="tId" keyColumn="t_id">
+        <![CDATA[
+            INSERT INTO SIM_TRANS_DETAIL (
+                T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE )
+            VALUES (
+                #{tId}
+                ,#{accId}
+                ,#{ctmId}
+                ,#{ctmName}
+                ,#{rNick}
+                ,#{rName}
+                ,#{reKkoUid}
+                ,#{tAmount}
+                ,#{commission}
+                ,#{tDate}
+                ,#{tTime}
+                ,#{rDate}
+                ,#{rTime}
+                ,#{tCode}
+                ,#{cancelCode}
+            )
+
+        ]]>
+    </insert>
 </mapper>

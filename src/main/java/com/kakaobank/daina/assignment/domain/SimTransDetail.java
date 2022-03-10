@@ -187,7 +187,8 @@ public class SimTransDetail {
         this.tAmount = tAmount;
     }
 
-    public void editTcode() {
+    public void editTcode(Long tAmount) {
+        this.tAmount = tAmount;
         this.commission = Long.valueOf(0);
         this.tDate = LocalDate.now();
         this.tTime = LocalTime.now();

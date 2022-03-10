@@ -9,14 +9,15 @@ import java.util.List;
 @Mapper
 public interface SimTransDetailMapper {
 
-    List<SimTransDetail> findTransAll(@Param("t_id") String t_id);
-
+    List<SimTransDetail> findTransAll(Long t_id);
 
     SimTransDetail findById(Long tId);
 
     void update(SimTransDetail simTransDetail);
 
-    List<SimTransDetail> findDetail(@Param("t_id") Long tId);
+    List<SimTransDetail> findDetail(@Param("t_id") Long t_id);
 
     void updatetCode(SimTransDetail simTransDetail);
+
+    void insert(SimTransDetail simTransDetail);
 }

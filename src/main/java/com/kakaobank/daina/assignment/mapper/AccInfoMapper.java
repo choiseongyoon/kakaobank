@@ -10,4 +10,6 @@ public interface AccInfoMapper {
     AccInfo findBaccAll(@Param("bacc_id") String bacc_id);
 
     void update(AccInfo accInfo);
+    void updateCnt(AccInfo accInfo);
+
 }

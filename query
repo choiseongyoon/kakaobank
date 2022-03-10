@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `acc_im` (
 
   INSERT INTO ACC_IM
   VALUES(
-  '352119811', '234', '20220304', '03:46', '보통예금', '30000', 'Y', '3422433', '1234', 'NORMAL'
+  '352119811', '234', '20220304', '03:46', '보통예금', '30000', 'Y', '3422433', '1234', 'NORMAL', '0'
   );
 
   CREATE TABLE IF NOT EXISTS `history_sim_trans_detail` (

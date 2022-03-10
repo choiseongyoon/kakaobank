@@ -17,9 +17,27 @@
                 ,CARD_NUM
                 ,BACC_PASS
                 ,BACC_STATUS
+                ,CNT_VER
             from ACC_IM
             where bacc_id = #{bacc_id}
         ]]>
     </select>
+
+    <update id="update"
+            parameterType="AccInfo">
+        <![CDATA[
+            UPDATE ACC_IM
+            SET BACC_BALANCE = #{baccBalance}
+            WHERE BACC_ID = #{baccId}
+        ]]>
+    </update>
+    <update id="updateCnt"
+            parameterType="AccInfo">
+        <![CDATA[
+            UPDATE ACC_IM
+            SET CNT_VER = #{cntVer}
+            WHERE BACC_ID = #{baccId}
+        ]]>
+    </update>
 
 </mapper>
