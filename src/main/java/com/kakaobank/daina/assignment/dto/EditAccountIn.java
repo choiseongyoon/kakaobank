@@ -4,15 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-/**
- * KakaoBank of Korea Corp.[KR]
- * 법인카드 경영망 프로젝트
- * Project : assignment
- * File : EditAccountIn
- * Description :
- * Date : 2022-03-02 오후 12:13
- * Author : Colin.lee
- */
 public class EditAccountIn {
     @NotNull(message = "사용자아이디를 입력하세요")
     private Long accountId;

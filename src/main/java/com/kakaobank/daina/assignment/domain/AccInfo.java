@@ -6,6 +6,7 @@ import java.time.LocalTime;
 public class AccInfo {
     private String baccId;
     private String ctmId;
+    private String ctmName;
     private LocalDate baccDate;
     private LocalTime baccTime;
     private String baccPart;
@@ -19,7 +20,7 @@ public class AccInfo {
     public AccInfo() {
     }
 
-    public AccInfo(String baccId, String ctmId, LocalDate baccDate, LocalTime baccTime, String baccPart, Long baccBalance, String cardIssue, String cardNum, Long baccPass, String baccStatus, Long cntVer) {
+    public AccInfo(String baccId, String ctmId, String ctmName, LocalDate baccDate, LocalTime baccTime, String baccPart, Long baccBalance, String cardIssue, String cardNum, Long baccPass, String baccStatus, Long cntVer) {
         this.baccId = baccId;
         this.ctmId = ctmId;
         this.baccDate = baccDate;
@@ -31,6 +32,15 @@ public class AccInfo {
         this.baccPass = baccPass;
         this.baccStatus = baccStatus;
         this.cntVer = cntVer;
+        this.ctmName = ctmName;
+    }
+
+    public String getCtmName() {
+        return ctmName;
+    }
+
+    public void setCtmName(String ctmName) {
+        this.ctmName = ctmName;
     }
 
     public Long getCntVer() {

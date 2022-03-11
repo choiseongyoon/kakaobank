@@ -1,10 +1,7 @@
 package com.kakaobank.daina.assignment.domain;
 
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 public class SimTransDetail {
     private Long tId;
@@ -187,7 +184,7 @@ public class SimTransDetail {
         this.tAmount = tAmount;
     }
 
-    public void editTcode(Long tAmount) {
+    public void editSend(Long tAmount) {
         this.tAmount = tAmount;
         this.commission = Long.valueOf(0);
         this.tDate = LocalDate.now();
@@ -196,5 +193,7 @@ public class SimTransDetail {
         this.rTime = LocalTime.now().minusHours(1);
         this.tCode = "C1";
     }
-
+    public void editTcode(String tCode) {
+        this.tCode = tCode;
+    }
 }

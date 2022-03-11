@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kakaobank.daina.assignment.mapper.CancelTarMapper">
+
+    <select id="findById" resultType="CancelTar">
+        <![CDATA[
+            select  t_id,
+                    acc_id,
+                    ctm_id,
+                    re_kko_uid,
+                    t_date,
+                    t_time,
+                    r_date,
+                    r_time,
+                    r_code,
+                    c_sumup
+            from cancel_tar
+            where t_id = #{tId}
+        ]]>
+    </select>
+
+    <update id="updateRcode"
+            parameterType="CancelTar">
+        <![CDATA[
+            UPDATE CANCEL_TAR
+            SET R_CODE = #{rCode}, C_SUMUP = #{cSumup}
+            WHERE T_ID = #{tId}
+        ]]>
+    </update>
+
+
+</mapper>

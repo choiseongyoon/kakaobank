@@ -1,5 +1,5 @@
 {{>layout/top}}
-
+<h2 class="ui dividing header" id="username">신다영</h2>
 <h2 class="ui dividing header">송금된 내역</h2>
 
 {{#errorMessage}}
@@ -60,12 +60,12 @@
     <!-- 사용자 추가삭제 부분 -->
     <form class="ui form" method="post">
         <div class="field">
-            <input id="form-inputrName" type="hidden" name="inputrName" placeholder="실명 입력">
-            <input id="form-inputrAccId" type="hidden" name="inputrAccId" placeholder="계좌번호 입력">
+            <input id="form-inputrAccId" type="hidden" name="rrAccId" placeholder="계좌번호 입력">
         </div>
         <div class="field">
             <input  id="form-tId" type="text" name="tId" placeholder="거래번호">
             <input  id="form-rName" type="text" name="rName" placeholder="수취인이름">
+            <input  id="form-rAccId" type="text" name="rAccId" placeholder="수취인계좌번호">
         </div>
 
         <button class="ui primary button" type="submit" formaction="/receive/money">확인</button>
@@ -75,18 +75,48 @@
         $('.ui.dropdown').dropdown();
         <!-- 테이블 내, 줄 클릭하면 아래 입력 폼으로 보내주는 소스 -->
         $('#receive-list tbody tr').click(function() {
-            $('input[name=inputrName]').attr('type', "show");
-            $('input[name=inputrAccId]').attr('type', "show");
+            $('input[name=rrAccId]').attr('type', "show");
 
             const td = $(this).children();
 
             const tId = td.eq(0).text().trim();
             const rName = td.eq(1).text().trim();
+            const rAccId = $('#form-rAccId').val();
 
             $('#form-tId').val(tId);
             $('#form-rName').val(rName);
-        })
+
+///////////////////////////////////
+
+            const username = $('#username').text();
+            const receivename = $('#form-rName').val();
+
+            axios.post("/receive/verifyName", {
+                    'username': username,
+                    'receivename': receivename
+                }).then((response) => {// 성공시
+
+                }).catch((error) => {
+                    $('#check-password').text(error.response.data.messages[0]);
+                    location.href = "/receive/fail";
+            })
+        });
+        $('#form-inputrAccId').keyup(function() {
+            const rAccId = $('#form-inputrAccId').val();
+
+            $('#form-rAccId').val(rAccId);
+        });
+
+
     </script>
 </div>
-
-{{>layout/bottom}}
+<!--axios.post("/send/verifyPassword", {-->
+<!--        'baccPass': password,-->
+<!--        'baccId': bacc_id-->
+<!--    }).then((response) => {// 성공시-->
+<!--        $('input[name=baccPass]').val(password);-->
+<!--        $('#lastbutton').trigger("click");-->
+<!--        $('.ui.modal.password').modal('hide');-->
+<!--    }).catch((error) => {-->
+<!--        $('#check-password').text(error.response.data.messages[0]);-->
+<!--})-->

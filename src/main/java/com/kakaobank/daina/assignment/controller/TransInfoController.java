@@ -11,14 +11,17 @@ import com.kakaobank.daina.assignment.exception.BizException;
 import com.kakaobank.daina.assignment.service.AccountingService;
 import com.kakaobank.daina.assignment.service.LoginService;
 import com.kakaobank.daina.assignment.service.TransInfoService;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TransInfoController {
@@ -78,6 +81,17 @@ public class TransInfoController {
         ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
         redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
 
-        return "redirect:/send/view";
+        return "redirect:/send/viewamount";
+    }
+    @ExceptionHandler(BindException.class)
+    public String error(BindException exception, RedirectAttributes redirectAttributes) {
+        List<String> errors = exception.getBindingResult().getAllErrors().stream().map(
+                DefaultMessageSourceResolvable::getDefaultMessage
+        ).collect(Collectors.toList());
+
+        ErrorMessage errorMessage = new ErrorMessage(errors);
+        redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+
+        return "redirect:/send/viewamount";
     }
 }

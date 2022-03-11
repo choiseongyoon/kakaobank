@@ -9,6 +9,7 @@ public class HistorySimTransDetail {
     private String accId;
     private String ctmId;
     private String rName;
+    private String rAccId;
     private String reKkoUid;
     private Long tAmount;
     private Long commission;
@@ -20,7 +21,19 @@ public class HistorySimTransDetail {
     public HistorySimTransDetail() {
     }
 
-    public HistorySimTransDetail(Long tId, Long serialNum, String accId, String ctmId, String rName, String reKkoUid, Long tAmount, Long commission, LocalDate nDate, LocalTime nTime, String tCode, String rCode) {
+    public HistorySimTransDetail(Long tId,
+                                 Long serialNum,
+                                 String accId,
+                                 String ctmId,
+                                 String rName,
+                                 String rAccId,
+                                 String reKkoUid,
+                                 Long tAmount,
+                                 Long commission,
+                                 LocalDate nDate,
+                                 LocalTime nTime,
+                                 String tCode,
+                                 String rCode) {
         this.tId = tId;
         this.serialNum = serialNum;
         this.accId = accId;
@@ -33,6 +46,15 @@ public class HistorySimTransDetail {
         this.nTime = nTime;
         this.tCode = tCode;
         this.rCode = rCode;
+        this.rAccId = rAccId;
+    }
+
+    public String getrAccId() {
+        return rAccId;
+    }
+
+    public void setrAccId(String rAccId) {
+        this.rAccId = rAccId;
     }
 
     public Long gettId() {
@@ -130,13 +152,14 @@ public class HistorySimTransDetail {
     public void setrCode(String rCode) {
         this.rCode = rCode;
     }
-    public static HistorySimTransDetail createNew(Long tId, String accId, String ctmId, String rName, String reKkoUid, Long tAmount, Long commission, LocalDate nDate, LocalTime nTime, String tCode) {
+    public static HistorySimTransDetail createNew(Long tId, String accId, String ctmId, String rName, String rAccId, String reKkoUid, Long tAmount, Long commission, LocalDate nDate, LocalTime nTime, String tCode) {
         HistorySimTransDetail historySimTransDetail = new HistorySimTransDetail(
                 tId,
                 null,
                 accId,
                 ctmId,
                 rName,
+                rAccId,
                 reKkoUid,
                 tAmount,
                 commission,

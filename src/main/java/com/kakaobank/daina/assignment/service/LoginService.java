@@ -17,7 +17,9 @@ import java.util.logging.Logger;
 public class LoginService {
 
     private final AccInfoMapper accInfoMapper;
+
     public LoginService(AccInfoMapper accInfoMapper) {
+
         this.accInfoMapper = accInfoMapper;
     }
 
@@ -56,4 +58,16 @@ public class LoginService {
 
         return this.verifyPassword(inputBaccPass, accInfo);
     }
+
+    @Transactional(propagation= Propagation.REQUIRES_NEW)
+    public void verifyName(String username, String receivename) {
+        if (!username.equals(receivename)) {
+            // TODO: 2022-03-11 이체취소프로세스 추가
+
+            throw new BizException("실명이 일치하지 않습니다.");
+        }
+
+    }
+
+
 }

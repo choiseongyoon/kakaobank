@@ -51,7 +51,6 @@
             <button id="lastbutton" class="ui primary button" type="submit" formaction="/send/money">최종 확인</button>
         </div>
 
-
     </form>
     <button name="amountbutton" class="ui primary button" >확인</button>
 
@@ -114,7 +113,7 @@
             $('#lastbutton').trigger("click");
             $('.ui.modal.password').modal('hide');
         }).catch((error) => {
-            $('#check-password').text(error.response.data.messages[0]); // 실패 시 데이터, JSON.stringify 할 필요 없이, 변수에서 데이터 빼시면 됩니다.
+            $('#check-password').text(error.response.data.messages[0]);
         })
 
     });

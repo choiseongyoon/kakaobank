@@ -107,12 +107,20 @@ public class TransInfoService {
 
     private void updateTransfer(SendMoneyIn sendMoneyIn, SimTransDetail byId) {
         //간편이체거래내역 업데이트
-        byId.editTcode(sendMoneyIn.gettAmount());
+        byId.editSend(sendMoneyIn.gettAmount());
         simTransDetailMapper.updatetCode(byId);
 
         //상세내역 insert
         historySimTransDetailMapper.insert(HistorySimTransDetail.createNew(byId.gettId(),
-                byId.getAccId(), byId.getCtmId(), byId.getrName(), byId.getReKkoUid(), byId.gettAmount(), byId.getCommission(), byId.gettDate(), byId.gettTime(),
+                byId.getAccId(),
+                byId.getCtmId(),
+                byId.getrName(),
+                null,
+                byId.getReKkoUid(),
+                byId.gettAmount(),
+                byId.getCommission(),
+                byId.gettDate(),
+                byId.gettTime(),
                 byId.gettCode()));
     }
 
