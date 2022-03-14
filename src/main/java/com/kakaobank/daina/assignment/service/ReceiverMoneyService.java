@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -49,9 +51,8 @@ public class ReceiverMoneyService {
         //간편이체내역 검증
         SimTransDetail byId = simTransDetailMapper.findById(receiveMoneyIn.gettId());
 
-        if(byId == null) {
-            throw new BizException("간편이체내역이 존재하지 않습니다.");
-        }
+        //거래존재여부, 이체구분코드 확인
+        boolean checkCode  = loginService.checkCode(byId, "C1");
 
         //입력한 실명 일치 여부->
         AccInfo accInfo = accInfoMapper.findBaccAll(receiveMoneyIn.getrAccId());
@@ -60,17 +61,6 @@ public class ReceiverMoneyService {
         }
         if(!accInfo.getCtmName().equals(byId.getrName())){
             throw new BizException("실명이 일치하지 않습니다.");
-        }
-
-        //c1일치여부
-        if(byId.gettCode().equals("C0")){
-            throw new BizException("비정상적인 거래입니다.");
-        }else if(byId.gettCode().equals("C2")){
-            throw new BizException("이체가 취소된 거래입니다.");
-        }else if(byId.gettCode().equals("C3")){
-            throw new BizException("이미 처리된 거래입니다.");
-        }else if(byId.gettCode().equals("C4")){
-            throw new BizException("이체가 취소된 거래입니다.");
         }
 
         //취소대상관리여부 확인
@@ -105,8 +95,8 @@ public class ReceiverMoneyService {
                 byId.getReKkoUid(),
                 byId.gettAmount(),
                 byId.getCommission(),
-                byId.gettDate(),
-                byId.gettTime(),
+                LocalDate.now(),
+                LocalTime.now(),
                 byId.gettCode()));
     }
 }

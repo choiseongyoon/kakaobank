@@ -1,6 +1,7 @@
 package com.kakaobank.daina.assignment.service;
 
 import com.kakaobank.daina.assignment.domain.AccInfo;
+import com.kakaobank.daina.assignment.domain.SimTransDetail;
 import com.kakaobank.daina.assignment.dto.SendMoneyIn;
 import com.kakaobank.daina.assignment.exception.BizException;
 import com.kakaobank.daina.assignment.exception.PasswordCountException;
@@ -11,12 +12,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Service
 public class LoginService {
 
     private final AccInfoMapper accInfoMapper;
+    public static final Map<String, String> codeMessage =Map.of(
+            "C0","비정상적인 거래입니다.",
+            "C1","이체가 완료된 거래입니다.",
+            "C2","이체가 취소된 거래입니다.",
+            "C3","이미 처리된 거래입니다.",
+            "C4","이체가 취소된 거래입니다.",
+            "CX","비정상적인 거래입니다."
+    );
 
     public LoginService(AccInfoMapper accInfoMapper) {
 
@@ -68,6 +79,31 @@ public class LoginService {
         }
 
     }
+    //거래존재여부, 이체구분코드 확인
+    public boolean checkCode(SimTransDetail simTransDetail, String matchingCode) {
 
+        if(simTransDetail == null) {
+            throw new BizException("간편이체내역이 존재하지 않습니다.");
+        }
+
+        String errorCode="";
+
+        if(matchingCode.equals(simTransDetail.gettCode())){
+            return true;
+        }else if(simTransDetail.gettCode().equals("C0")){
+            errorCode = "C0";
+        }else if(simTransDetail.gettCode().equals("C1")){
+            errorCode = "C1";
+        }else if(simTransDetail.gettCode().equals("C2")){
+            errorCode = "C2";
+        }else if(simTransDetail.gettCode().equals("C3")){
+            errorCode = "C3";
+        }else if(simTransDetail.gettCode().equals("C4")){
+            errorCode = "C4";
+        }else             errorCode = "CX";
+
+        throw new BizException(codeMessage.get(errorCode));
+
+    }
 
 }

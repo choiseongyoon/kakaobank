@@ -53,22 +53,11 @@ public class TransInfoService {
     @Transactional
     public void sendMoney(SendMoneyIn sendMoneyIn) {
 
-        //간편이체내역 검증
+
         SimTransDetail byId = simTransDetailMapper.findById(sendMoneyIn.gettId());
 
-        if(byId == null) {
-            throw new BizException("간편이체내역이 존재하지 않습니다.");
-        }
-        if(byId.gettCode().equals("C1")) {
-            throw new BizException("간편이체가 완료된 거래입니다.");
-        }else if(byId.gettCode().equals("C2")){
-            throw new BizException("간편이체가 완료된 거래입니다.");
-        }else if(byId.gettCode().equals("C3")){
-            throw new BizException("간편이체가 취소된 거래입니다.");
-        }else if(byId.gettCode().equals("C4")){
-            throw new BizException("간편이체가 취소된 거래입니다.");
-        }
-
+        //거래존재여부, 이체구분코드 확인
+        boolean checkCode  = loginService.checkCode(byId, "C0");
 
         //계좌 상태 검증, 잔액 검증
         AccInfo account = accInfoMapper.findBaccAll(byId.getAccId());
