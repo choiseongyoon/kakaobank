@@ -21,6 +21,24 @@
             where t_id = #{tId}
         ]]>
     </select>
+    <select id="findOverDate" resultType="CancelTar">
+        <![CDATA[
+            SELECT T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                RE_KKO_UID ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                R_CODE ,
+                C_SUMUP
+            FROM cancel_tar
+            WHERE R_CODE = "N"
+            AND R_DATE <= date_format(NOW(), '%Y-%m-%d')
+            AND R_TIME <= date_format(NOW(), '%H:%i:%s')
+        ]]>
+    </select>
 
     <update id="updateRcode"
             parameterType="CancelTar">
@@ -62,5 +80,6 @@
             )
         ]]>
     </insert>
+
 
 </mapper>

@@ -84,24 +84,24 @@ public class TransInfoService {
         accInfoMapper.update(account);
 
         //내역 업데이트
-        updateTransfer(sendMoneyIn, byId);
+        HistorySimTransDetail historySimTransDetail = updateTransfer(sendMoneyIn, byId);
 
         //이체이력이 있는 친구 리스트 업데이트
         //내역업데이트 후 진행해야함
         updateFriendsList(byId);
 
         //회계처리호출(보내기 C1)
-        accountingService.accountingTransfer(byId, "C1");
+        accountingService.accountingTransfer(byId, historySimTransDetail, "C1");
 
     }
 
-    private void updateTransfer(SendMoneyIn sendMoneyIn, SimTransDetail byId) {
+    private HistorySimTransDetail updateTransfer(SendMoneyIn sendMoneyIn, SimTransDetail byId) {
         //간편이체거래내역 업데이트
         byId.editSend(sendMoneyIn.gettAmount());
         simTransDetailMapper.updatetCode(byId);
 
         //상세내역 insert
-        historySimTransDetailMapper.insert(HistorySimTransDetail.createNew(byId.gettId(),
+        HistorySimTransDetail historySimTransDetail = HistorySimTransDetail.createNew(byId.gettId(),
                 byId.getAccId(),
                 byId.getCtmId(),
                 byId.getrName(),
@@ -111,7 +111,10 @@ public class TransInfoService {
                 byId.getCommission(),
                 byId.gettDate(),
                 byId.gettTime(),
-                byId.gettCode()));
+                byId.gettCode());
+        historySimTransDetailMapper.insert(historySimTransDetail);
+
+        return historySimTransDetail;
     }
 
     // 이체이력이 있는 친구 리스트 업데이트

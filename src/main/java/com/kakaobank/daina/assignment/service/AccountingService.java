@@ -25,7 +25,7 @@ public class AccountingService {
     private final Logger logger = LoggerFactory.getLogger(AccountingService.class);
 
     @Transactional
-    public void accountingTransfer(SimTransDetail simTransDetail, String caseNum) {
+    public void accountingTransfer(SimTransDetail simTransDetail, HistorySimTransDetail historySimTransDetail, String caseNum) {
         //분개룰 확인
         List<JournalRule> journalRule = journalRuleMapper.findAll(caseNum);
 
@@ -35,7 +35,7 @@ public class AccountingService {
 
         for (int i = 0; i < journalRule.size(); i++) {
             JournalRule rule = journalRule.get(i);
-            tStateMapper.insert(TState.createNew(tStateId, i+1L, simTransDetail.gettId(), simTransDetail.gettDate(), simTransDetail.gettTime(),
+            tStateMapper.insert(TState.createNew(tStateId, i+1L, simTransDetail.gettId(), historySimTransDetail.getnDate(), historySimTransDetail.getnTime(),
                     rule.getPaDeCode(), rule.getAccSubCode(), simTransDetail.gettAmount(), s.concat(simTransDetail.gettCode())));
         }
     }

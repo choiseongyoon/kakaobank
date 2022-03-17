@@ -64,30 +64,32 @@ public class ReceiverMoneyService {
         }
 
         //취소대상관리여부 확인
-        if(byId.getCancelCode().equals("Y")){
-            //취소대상인 경우에 환급여부 수정해주기 update
-            CancelTar cancelTar = cancelTarMapper.findById(byId.gettId());
+        verificationService.checkCancelCode(byId, "이체");
+//        if(byId.getCancelCode().equals("Y")){
+//            //취소대상인 경우에 환급여부 수정해주기 update
+//            CancelTar cancelTar = cancelTarMapper.findById(byId.gettId());
+//
+//            //코드가 Y거나 N이면 예외처리
+//            if (cancelTar.getrCode().equals("Y")){
+//                throw new BizException("이미 환급이 완료된 거래입니다.");
+//            }else if(cancelTar.getrCode().equals("E")){
+//                throw new BizException("이체 취소 대상 거래입니다.");
+//            }
+//            cancelTar.editRcode("Y", "이체 완료");
+//            cancelTarMapper.updateRcode(cancelTar);
+//         }
 
-            //코드가 Y거나 N이면 예외처리
-            if (cancelTar.getrCode().equals("Y")){
-                throw new BizException("이미 환급이 완료된 거래입니다.");
-            }else if(cancelTar.getrCode().equals("E")){
-                throw new BizException("이체 취소 대상 거래입니다.");
-            }
-            cancelTar.editRcode("Y", "이체 완료");
-            cancelTarMapper.updateRcode(cancelTar);
-         }
-        updateTransfer(receiveMoneyIn, byId);
+        HistorySimTransDetail historySimTransDetail = updateTransfer(receiveMoneyIn, byId);
 
-        accountingService.accountingTransfer(byId, "C3");
+        accountingService.accountingTransfer(byId, historySimTransDetail, "C3");
     }
-    private void updateTransfer(ReceiveMoneyIn receiveMoneyIn, SimTransDetail byId) {
+    private HistorySimTransDetail updateTransfer(ReceiveMoneyIn receiveMoneyIn, SimTransDetail byId) {
         //간편이체거래내역 업데이트
         byId.editTcode("C3");
         simTransDetailMapper.updatetCode(byId);
 
         //상세내역 insert
-        historySimTransDetailMapper.insert(HistorySimTransDetail.createNew(byId.gettId(),
+        HistorySimTransDetail historySimTransDetail = HistorySimTransDetail.createNew(byId.gettId(),
                 byId.getAccId(),
                 byId.getCtmId(),
                 byId.getrName(),
@@ -97,6 +99,10 @@ public class ReceiverMoneyService {
                 byId.getCommission(),
                 LocalDate.now(),
                 LocalTime.now(),
-                byId.gettCode()));
+                byId.gettCode());
+        historySimTransDetailMapper.insert(historySimTransDetail);
+
+        return historySimTransDetail;
     }
+
 }

@@ -196,4 +196,7 @@ public class SimTransDetail {
     public void editTcode(String tCode) {
         this.tCode = tCode;
     }
+    public void editCancelCode() {
+        this.cancelCode = "Y";
+    }
 }

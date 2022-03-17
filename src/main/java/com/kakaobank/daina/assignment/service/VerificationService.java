@@ -1,20 +1,30 @@
 package com.kakaobank.daina.assignment.service;
 
 import com.kakaobank.daina.assignment.domain.AccInfo;
+import com.kakaobank.daina.assignment.domain.CancelTar;
+import com.kakaobank.daina.assignment.domain.CtmBaccClose;
 import com.kakaobank.daina.assignment.domain.SimTransDetail;
 import com.kakaobank.daina.assignment.exception.BizException;
 import com.kakaobank.daina.assignment.exception.PasswordCountException;
 import com.kakaobank.daina.assignment.mapper.AccInfoMapper;
+import com.kakaobank.daina.assignment.mapper.CancelTarMapper;
+import com.kakaobank.daina.assignment.mapper.CtmBaccCloseMapper;
+import com.kakaobank.daina.assignment.mapper.SimTransDetailMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.ref.PhantomReference;
 import java.util.Map;
 
 @Service
 public class VerificationService {
 
     private final AccInfoMapper accInfoMapper;
+    private final CancelTarMapper cancelTarMapper;
+    private final SimTransDetailMapper simTransDetailMapper;
+    private final CtmBaccCloseMapper ctmBaccCloseMapper;
+
     public static final Map<String, String> codeMessage =Map.of(
             "C0","비정상적인 거래입니다.",
             "C1","이체가 완료된 거래입니다.",
@@ -24,9 +34,11 @@ public class VerificationService {
             "CX","비정상적인 거래입니다."
     );
 
-    public VerificationService(AccInfoMapper accInfoMapper) {
-
+    public VerificationService(CtmBaccCloseMapper ctmBaccCloseMapper, SimTransDetailMapper simTransDetailMapper, CancelTarMapper cancelTarMapper, AccInfoMapper accInfoMapper) {
         this.accInfoMapper = accInfoMapper;
+        this.cancelTarMapper = cancelTarMapper;
+        this.simTransDetailMapper = simTransDetailMapper;
+        this.ctmBaccCloseMapper = ctmBaccCloseMapper;
     }
 
     //@Transactional(propagation= Propagation.REQUIRES_NEW)
@@ -64,7 +76,7 @@ public class VerificationService {
         return this.verifyPassword(inputBaccPass, accInfo);
     }
 
-    @Transactional(propagation= Propagation.REQUIRES_NEW)
+    @Transactional
     public void verifyName(String username, String receivename) {
         if (!username.equals(receivename)) {
             // TODO: 2022-03-11 이체취소프로세스 추가
@@ -74,6 +86,7 @@ public class VerificationService {
 
     }
     //거래존재여부, 이체구분코드 확인
+    @Transactional
     public boolean checkCode(SimTransDetail simTransDetail, String matchingCode) {
 
         if(simTransDetail == null) {
@@ -99,5 +112,51 @@ public class VerificationService {
         throw new BizException(codeMessage.get(errorCode));
 
     }
+    // TODO: 2022-03-17 취소 검증부
+    @Transactional
+    public boolean checkAccState(Long tId, String accId) {
+
+        AccInfo accInfo = accInfoMapper.findBaccAll(accId);
+        if (accInfo == null) {
+            throw new BizException("거래정보가 존재하지 않습니다.");
+        }
+        if (accInfo.getBaccStatus().equals("normal")) {
+            return true;
+        }
+
+        CancelTar cancelTar = cancelTarMapper.findById(tId);
+        if (cancelTar == null) {
+            throw new BizException("취소정보가 존재하지 않습니다.");
+        }
+        cancelTar.editRcode("E", "계좌정지");
+        cancelTarMapper.updateRcode(cancelTar);
+
+        SimTransDetail simTransDetail = simTransDetailMapper.findById(tId);
+        if (simTransDetail == null) {
+            throw new BizException("간편이체내역이 존재하지 않습니다.");
+        }
+        ctmBaccCloseMapper.insert(CtmBaccClose.createNew(simTransDetail, accInfo));
+
+        return false;
+    }
+
+    //취소대상관리 여부 확인
+    @Transactional
+    public void checkCancelCode(SimTransDetail byId, String state){
+        if(byId.getCancelCode().equals("Y")){
+            //취소대상인 경우에 환급여부 수정해주기 update
+            CancelTar cancelTar = cancelTarMapper.findById(byId.gettId());
+
+            //코드가 Y거나 N이면 예외처리
+            if (cancelTar.getrCode().equals("Y")){
+                throw new BizException("이미 환급이 완료된 거래입니다.");
+            }else if(cancelTar.getrCode().equals("E")){
+                throw new BizException("이체 취소 대상 거래입니다.");
+            }
+            cancelTar.editRcode("Y", state + "완료");
+            cancelTarMapper.updateRcode(cancelTar);
+        }
+    }
+
 
 }
