@@ -1,12 +1,13 @@
 package com.kakaobank.daina.assignment.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class VerifyNameIn {
 
-    @NotNull(message = "사용자 정보가 없습니다.")
+    @NotBlank(message = "사용자 정보가 없습니다.")
     private String username;
-    @NotNull(message = "거래 정보가 없습니다.")
+    @NotBlank(message = "거래 정보가 없습니다.")
     private String receivename;
 
     public VerifyNameIn() {

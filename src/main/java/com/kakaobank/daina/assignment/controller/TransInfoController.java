@@ -1,21 +1,23 @@
 package com.kakaobank.daina.assignment.controller;
 
 import com.kakaobank.daina.assignment.domain.AccInfo;
-import com.kakaobank.daina.assignment.domain.HistorySimTransDetail;
-import com.kakaobank.daina.assignment.domain.JournalRule;
 import com.kakaobank.daina.assignment.domain.SimTransDetail;
 import com.kakaobank.daina.assignment.dto.SendMoneyIn;
 import com.kakaobank.daina.assignment.dto.ErrorMessage;
 import com.kakaobank.daina.assignment.dto.VerifyPasswordIn;
 import com.kakaobank.daina.assignment.exception.BizException;
-import com.kakaobank.daina.assignment.service.AccountingService;
-import com.kakaobank.daina.assignment.service.LoginService;
+import com.kakaobank.daina.assignment.exception.PasswordCountException;
+import com.kakaobank.daina.assignment.service.VerificationService;
 import com.kakaobank.daina.assignment.service.TransInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,12 +29,13 @@ import java.util.stream.Collectors;
 public class TransInfoController {
 
     private final TransInfoService transInfoService;
-    private final LoginService loginService;
+    private final VerificationService verificationService;
+    private final Logger logger = LoggerFactory.getLogger(TransInfoController.class);
 
-    public TransInfoController(TransInfoService transInfoService, LoginService loginService) {
+    public TransInfoController(TransInfoService transInfoService, VerificationService verificationService) {
 
         this.transInfoService = transInfoService;
-        this.loginService = loginService;
+        this.verificationService = verificationService;
     }
 
     //계좌 조회, 간편이체거래내역 조회
@@ -58,16 +61,24 @@ public class TransInfoController {
     }
     //json형태로 데이터를 전달하는
     @PostMapping(value = "/send/verifyPassword")
-    public ResponseEntity doTest(@Valid @RequestBody VerifyPasswordIn verifyPasswordIn) {
-        // TODO: 2022-03-08 비밀번호 실패시 오류 횟수 출력
-        boolean check;
-        try {
-            check = loginService.verifyPassword(verifyPasswordIn.getBaccPass(), verifyPasswordIn.getBaccId());
-        } catch (BizException e) {
+    public ResponseEntity doTest(@Valid @RequestBody VerifyPasswordIn verifyPasswordIn, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getFieldErrors().stream().map(
+                    DefaultMessageSourceResolvable::getDefaultMessage
+            ).collect(Collectors.toList());
+
+            ErrorMessage errorMessage = new ErrorMessage(errors);
+
             return ResponseEntity
                     .badRequest()
-                    .body(new ErrorMessage(e.getMessage()));
+                    .body(errorMessage);
         }
+
+        // TODO: 2022-03-08 비밀번호 실패시 오류 횟수 출력
+        boolean check;
+
+        check = verificationService.verifyPassword(verifyPasswordIn.getBaccPass(), verifyPasswordIn.getBaccId());
+
         if(check == true)   return ResponseEntity.ok().build();
         //화면이 아닌 결과값을 데이터로 리턴한다.
         else return ResponseEntity
@@ -81,7 +92,16 @@ public class TransInfoController {
         ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
         redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
 
-        return "redirect:/send/viewamount";
+        logger.error("BizException", exception);
+        return "redirect:/send/view";
+    }
+    @ExceptionHandler(PasswordCountException.class)
+    public String error(PasswordCountException exception, RedirectAttributes redirectAttributes) {
+        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
+        redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+
+        logger.error("PasswordCountException", exception);
+        return "redirect:/send/view";
     }
     @ExceptionHandler(BindException.class)
     public String error(BindException exception, RedirectAttributes redirectAttributes) {
@@ -92,6 +112,8 @@ public class TransInfoController {
         ErrorMessage errorMessage = new ErrorMessage(errors);
         redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
 
-        return "redirect:/send/viewamount";
+        logger.error("BindException", exception);
+
+        return "redirect:/send/view";
     }
 }

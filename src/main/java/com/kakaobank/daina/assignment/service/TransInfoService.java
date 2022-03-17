@@ -21,18 +21,18 @@ public class TransInfoService {
     private final AccInfoMapper accInfoMapper;
     private final ReceiHisMapper receiHisMapper;
     private final HistorySimTransDetailMapper historySimTransDetailMapper;
-    private final LoginService loginService;
+    private final VerificationService verificationService;
     private final AccountingService accountingService;
 
     private final Logger logger = LoggerFactory.getLogger(TransInfoService.class);
 
 
-    public TransInfoService(AccountingService accountingService, LoginService loginService, SimTransDetailMapper simTransDetailMapper, AccInfoMapper accInfoMapper, ReceiHisMapper receiHisMapper, HistorySimTransDetailMapper historySimTransDetailMapper) {
+    public TransInfoService(AccountingService accountingService, VerificationService verificationService, SimTransDetailMapper simTransDetailMapper, AccInfoMapper accInfoMapper, ReceiHisMapper receiHisMapper, HistorySimTransDetailMapper historySimTransDetailMapper) {
         this.accInfoMapper = accInfoMapper;
         this.simTransDetailMapper = simTransDetailMapper;
         this.receiHisMapper = receiHisMapper;
         this.historySimTransDetailMapper = historySimTransDetailMapper;
-        this.loginService = loginService;
+        this.verificationService = verificationService;
         this.accountingService = accountingService;
     }
 
@@ -57,7 +57,7 @@ public class TransInfoService {
         SimTransDetail byId = simTransDetailMapper.findById(sendMoneyIn.gettId());
 
         //거래존재여부, 이체구분코드 확인
-        boolean checkCode  = loginService.checkCode(byId, "C0");
+        boolean checkCode  = verificationService.checkCode(byId, "C0");
 
         //계좌 상태 검증, 잔액 검증
         AccInfo account = accInfoMapper.findBaccAll(byId.getAccId());
@@ -74,13 +74,10 @@ public class TransInfoService {
         }
 
         //비밀번호 검증
-        boolean check = loginService.verifyPassword(sendMoneyIn.getBaccPass(), account);
+        boolean check = verificationService.verifyPassword(sendMoneyIn.getBaccPass(), account);
         if(check==false){
             throw new BizException("비밀번호가 일치하지 않습니다.");
         }
-
-        // 이체이력이 있는 친구 리스트 업데이트
-        updateFriendsList(byId);
 
         //송금하기 (=잔액 업데이트)
         account.editMoney(account.getBaccBalance()-sendMoneyIn.gettAmount());
@@ -88,6 +85,10 @@ public class TransInfoService {
 
         //내역 업데이트
         updateTransfer(sendMoneyIn, byId);
+
+        //이체이력이 있는 친구 리스트 업데이트
+        //내역업데이트 후 진행해야함
+        updateFriendsList(byId);
 
         //회계처리호출(보내기 C1)
         accountingService.accountingTransfer(byId, "C1");
@@ -122,10 +123,8 @@ public class TransInfoService {
         }
         else {
             //있으면 update
-            receiHis.edit(String.valueOf(receiHis.gettDate()), String.valueOf(receiHis.gettTime()));
+            receiHis.edit(String.valueOf(byId.gettDate()), String.valueOf(byId.gettTime()));
             receiHisMapper.update(receiHis);
         }
     }
-
-
 }

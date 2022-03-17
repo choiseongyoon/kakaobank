@@ -1,6 +1,7 @@
 package com.kakaobank.daina.assignment.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class CancelTar {
@@ -113,5 +114,19 @@ public class CancelTar {
     public void editRcode(String rCode, String cSumup) {
         this.rCode = rCode;
         this.cSumup = cSumup;
+    }
+    public static CancelTar createNew(SimTransDetail simTransDetail) {
+        return new CancelTar(
+                simTransDetail.gettId(),
+                simTransDetail.getAccId(),
+                simTransDetail.getCtmId(),
+                simTransDetail.getReKkoUid(),
+                simTransDetail.gettDate(),
+                simTransDetail.gettTime(),
+                simTransDetail.getrDate().plusDays(1),
+                simTransDetail.getrTime(),
+                "N",
+                ""
+        );
     }
 }

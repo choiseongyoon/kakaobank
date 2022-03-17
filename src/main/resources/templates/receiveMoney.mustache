@@ -1,6 +1,10 @@
 {{>layout/top}}
-<h2 class="ui dividing header" id="username">신다영</h2>
-<h2 class="ui dividing header">송금된 내역</h2>
+<h2 class="ui center aligned icon header">
+    <i class="user circle outline icon"></i>
+    신다영
+</h2>
+<span class="hidden" id="username">신다영</span>
+<h2 class="ui center aligned header">송금된 내역</h2>
 
 {{#errorMessage}}
     <div class="ui negative message">
@@ -58,24 +62,26 @@
 
 <div>
     <!-- 사용자 추가삭제 부분 -->
-    <form class="ui form" method="post">
-        <div class="field">
-            <input id="form-inputrAccId" type="hidden" name="rrAccId" placeholder="계좌번호 입력">
-        </div>
-        <div class="field">
-            <input  id="form-tId" type="text" name="tId" placeholder="거래번호">
-            <input  id="form-rName" type="text" name="rName" placeholder="수취인이름">
-            <input  id="form-rAccId" type="text" name="rAccId" placeholder="수취인계좌번호">
-        </div>
+    <div id="nextField" class="field hidden">
+        <form class="ui form" method="post">
+            <div class="field ui input">
+                <input id="form-inputrAccId" name="rrAccId" placeholder="계좌번호 입력">
+            </div>
+            <button class="ui secondary button" type="submit" formaction="/receive/money">확인</button>
+            <div class="field hidden">
+                <input  id="form-tId" type="text" name="tId" placeholder="거래번호">
+                <input  id="form-rName" type="text" name="rName" placeholder="수취인이름">
+                <input  id="form-rAccId" type="text" name="rAccId" placeholder="수취인계좌번호">
+            </div>
 
-        <button class="ui primary button" type="submit" formaction="/receive/money">확인</button>
-    </form>
+        </form>
+    </div>
 
     <script>
         $('.ui.dropdown').dropdown();
         <!-- 테이블 내, 줄 클릭하면 아래 입력 폼으로 보내주는 소스 -->
         $('#receive-list tbody tr').click(function() {
-            $('input[name=rrAccId]').attr('type', "show");
+            $('#nextField').removeClass('hidden');
 
             const td = $(this).children();
 
@@ -85,8 +91,6 @@
 
             $('#form-tId').val(tId);
             $('#form-rName').val(rName);
-
-///////////////////////////////////
 
             const username = $('#username').text();
             const receivename = $('#form-rName').val();

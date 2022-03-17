@@ -23,7 +23,7 @@ import java.util.List;
 public class ReceiverMoneyService {
 
     private final SimTransDetailMapper simTransDetailMapper;
-    private final LoginService loginService;
+    private final VerificationService verificationService;
     private final AccountingService accountingService;
     private final HistorySimTransDetailMapper historySimTransDetailMapper;
     private final CancelTarMapper cancelTarMapper;
@@ -31,9 +31,9 @@ public class ReceiverMoneyService {
 
     private final Logger logger = LoggerFactory.getLogger(ReceiverMoneyService.class);
 
-    public ReceiverMoneyService(AccInfoMapper accInfoMapper, CancelTarMapper cancelTarMapper, SimTransDetailMapper simTransDetailMapper, LoginService loginService, AccountingService accountingService, HistorySimTransDetailMapper historySimTransDetailMapper) {
+    public ReceiverMoneyService(AccInfoMapper accInfoMapper, CancelTarMapper cancelTarMapper, SimTransDetailMapper simTransDetailMapper, VerificationService verificationService, AccountingService accountingService, HistorySimTransDetailMapper historySimTransDetailMapper) {
         this.simTransDetailMapper = simTransDetailMapper;
-        this.loginService = loginService;
+        this.verificationService = verificationService;
         this.accountingService = accountingService;
         this.historySimTransDetailMapper = historySimTransDetailMapper;
         this.cancelTarMapper = cancelTarMapper;
@@ -52,7 +52,7 @@ public class ReceiverMoneyService {
         SimTransDetail byId = simTransDetailMapper.findById(receiveMoneyIn.gettId());
 
         //거래존재여부, 이체구분코드 확인
-        boolean checkCode  = loginService.checkCode(byId, "C1");
+        boolean checkCode  = verificationService.checkCode(byId, "C1");
 
         //입력한 실명 일치 여부->
         AccInfo accInfo = accInfoMapper.findBaccAll(receiveMoneyIn.getrAccId());

@@ -1,8 +1,13 @@
 package com.kakaobank.daina.assignment.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class CreateRnameIn {
+    @NotBlank(message = "실명을 입력해주세요.")
     private String rName;
+    @NotBlank(message = "닉네임을 입력해주세요.")
     private String rNick;
+    @NotBlank(message = "카카오톡 고유번호를 입력해주세요.")
     private String reKkoUid;
 
     public CreateRnameIn() {

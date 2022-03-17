@@ -40,14 +40,6 @@ public class ReceiverService {
         //객체 넘겨 mapper통해서 db에 값 insert
         simTransDetailMapper.insert(simTransDetail);
 
-        //다음 페이지에 전달해줄 거래번호와 계좌번호 map으로 저장
-//        HashMap<String, String> ob = new HashMap<String, String>();
-//        ob.put("t_id", String.valueOf(simTransDetail.gettId()));
-//        ob.put("bacc_id", simTransDetail.getAccId());
-//
-//        System.out.println(simTransDetail.gettId());
-//        System.out.println(simTransDetail.getAccId());
-
         return simTransDetail;
     }
 }

@@ -2,22 +2,17 @@ package com.kakaobank.daina.assignment.service;
 
 import com.kakaobank.daina.assignment.domain.AccInfo;
 import com.kakaobank.daina.assignment.domain.SimTransDetail;
-import com.kakaobank.daina.assignment.dto.SendMoneyIn;
 import com.kakaobank.daina.assignment.exception.BizException;
 import com.kakaobank.daina.assignment.exception.PasswordCountException;
 import com.kakaobank.daina.assignment.mapper.AccInfoMapper;
-import com.kakaobank.daina.assignment.mapper.ReceiHisMapper;
-import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Service
-public class LoginService {
+public class VerificationService {
 
     private final AccInfoMapper accInfoMapper;
     public static final Map<String, String> codeMessage =Map.of(
@@ -29,12 +24,12 @@ public class LoginService {
             "CX","비정상적인 거래입니다."
     );
 
-    public LoginService(AccInfoMapper accInfoMapper) {
+    public VerificationService(AccInfoMapper accInfoMapper) {
 
         this.accInfoMapper = accInfoMapper;
     }
 
-    @Transactional(propagation= Propagation.REQUIRES_NEW)
+    //@Transactional(propagation= Propagation.REQUIRES_NEW)
     public boolean verifyPassword(Long sendBaccPass, AccInfo accInfo){
 
         //비밀번호 검증
@@ -45,7 +40,6 @@ public class LoginService {
             accInfo.editCntVer(0L);
             accInfoMapper.updateCnt(accInfo);
             throw new PasswordCountException("비밀번호 확인 횟수를 초과했습니다.");
-
         }
         if(!sendBaccPass.equals(accInfo.getBaccPass())){
             //계좌 DB 업데이트
@@ -60,7 +54,7 @@ public class LoginService {
 
     }
 
-    @Transactional(propagation= Propagation.REQUIRES_NEW)
+    //@Transactional(propagation= Propagation.REQUIRES_NEW)
     public boolean verifyPassword(Long inputBaccPass, String baccId) {
         AccInfo accInfo = accInfoMapper.findBaccAll(baccId);
         if (accInfo == null) {

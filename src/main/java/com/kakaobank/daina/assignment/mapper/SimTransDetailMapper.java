@@ -22,4 +22,9 @@ public interface SimTransDetailMapper {
     void updatetCode(SimTransDetail simTransDetail);
 
     void insert(SimTransDetail simTransDetail);
+
+    List<SimTransDetail> findOverDate();
+
+    void updateCancelCode(SimTransDetail simTransDetail);
+
 }

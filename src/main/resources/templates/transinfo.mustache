@@ -15,11 +15,18 @@
 {{/errorMessage}}
 
         {{#transactions}}
+
             <div style="display: none;">
                 <span id="bacc_id" name="baccId" class="ui dividing header">{{baccId}}</span>
                 <span id="ctm_id" name="ctmId" class="ui dividing header">{{ctmId}}</span>
             </div>
-                <span id="bacc_balance" name="baccBalance" class="ui dividing header">{{baccBalance}}</span>
+            <h2 class="ui header">
+                <i class="won sign icon"></i>
+                <div class="content">
+                    <div id="bacc_balance" name="baccBalance" class="ui dividing header">{{baccBalance}} 원</div>
+                </div>
+
+            </h2>
             <div style="display: none;">
                 <span id="bacc_status" name="baccStatus" class="ui dividing header">{{baccStatus}}</span>
             </div>
@@ -39,11 +46,15 @@
 
 
     <form class="ui form" method="post">
-
-        <input id="form-bacc-amount" type="number" name="tAmount" placeholder="금액 입력"/>
-
+        <div class="ui grid">
+            <div class="ui input four wide column">
+                <input id="form-bacc-amount" type="number" name="tAmount" placeholder="금액 입력"/>
+            </div>
+            <div class="four wide column">
+                <button name="amountbutton" type="button" class="ui secondary button" >확인</button>
+            </div>
+        </div>
         <div class="ui pointing red basic label hidden" id="out-bacc-amount" name="amountMessage" type="text">송금 금액을 확인해주세요.</div>
-
         <input hidden id="form-password" type="number" name="baccPass" placeholder="비밀번호란"/>
         <input hidden id="form-t-id" type="number" name="tId" placeholder="아이디내려받을곳"/>
 
@@ -52,22 +63,32 @@
         </div>
 
     </form>
-    <button name="amountbutton" class="ui primary button" >확인</button>
+
 
     <div class="ui modal amount" name="amountModal">
-        <div class="header">간편이체정보확인</div>
-        <span>           </span>
-        <span name="s_rName"></span>(
-            <span name="s_rNick"></span> ) 에게
-            <span name="s_amount"></span> 원을 이체하시겠습니까?
+        <div class="header">
+            <i class="check circle outline icon"></i>
+            간편이체정보확인
+        </div>
+        <h3 class="ui header">
+            <span name="s_rName"></span>(
+                <span name="s_rNick"></span> ) 에게
+                <span name="s_amount"></span> 원을 이체하시겠습니까?
+        </h3>
         <div class="actions">
             <div class="ui cancel button" name="cancelTrans">이체내역취소</div>
             <div class="ui approve button" name="approveTrans">이체내역확인</div>
         </div>
     </div>
+
     <div class="ui modal password" name="passwordModal">
-        <div id="check-password" class="header">비밀번호를 입력해주세요</div>
-        <input id="form-password" type="password" name="input_password" placeholder="비밀번호란"/>
+        <div id="check-password" class="header">
+            <i class="check circle outline icon"></i>
+            비밀번호를 입력해주세요
+        </div>
+        <div class="ui input">
+            <input id="form-password" type="password" name="input_password" placeholder="비밀번호란"/>
+        </div>
         <div class="actions">
             <div class="ui cancel button" name="cancelpassword">취소</div>
             <div class="ui button" id="checkpassword" type="submit" formaction="successtrans">비밀번호 입력</div>
@@ -119,7 +140,7 @@
     });
 
     $('#form-bacc-amount').keyup(function() {
-        const baccBalance = $('span[name=baccBalance]').text();
+        const baccBalance = $('div[name=baccBalance]').text();
         if(parseInt(baccBalance) < parseInt($('#form-bacc-amount').val())){
             $('#out-bacc-amount').removeClass('hidden');
             door = 0;

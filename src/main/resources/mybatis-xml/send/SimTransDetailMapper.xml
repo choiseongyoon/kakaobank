@@ -155,4 +155,35 @@
 
         ]]>
     </select>
+    <select id="findOverDate" resultType="SimTransDetail">
+        <![CDATA[
+            SELECT T_ID ,
+                ACC_ID ,
+                CTM_ID ,
+                CTM_NAME ,
+                R_NICK ,
+                R_NAME ,
+                RE_KKO_UID ,
+                T_AMOUNT ,
+                COMMISSION ,
+                T_DATE ,
+                T_TIME ,
+                R_DATE ,
+                R_TIME ,
+                T_CODE ,
+                CANCEL_CODE
+            FROM SIM_TRANS_DETAIL
+            WHERE cancel_code = "N"
+            AND R_DATE <= date_format(NOW(), '%Y-%m-%d')
+            AND R_TIME <= date_format(NOW(), '%H:%i:%s')
+        ]]>
+    </select>
+    <update id="updateCancelCode"
+            parameterType="SimTransDetail">
+        <![CDATA[
+            UPDATE SIM_TRANS_DETAIL
+            SET CANCEL_CODE = "Y"
+            WHERE T_ID = #{tId}
+        ]]>
+    </update>
 </mapper>

@@ -31,5 +31,36 @@
         ]]>
     </update>
 
+    <insert id="insert"
+            parameterType="CancelTar">
+        <![CDATA[
+            INSERT INTO CANCEL_TAR
+            (
+                T_ID
+                ,ACC_ID
+                ,CTM_ID
+                ,RE_KKO_UID
+                ,T_DATE
+                ,T_TIME
+                ,R_DATE
+                ,R_TIME
+                ,R_CODE
+                ,C_SUMUP
+            )
+            VALUES
+            (
+                #{tId}
+                ,#{accId}
+                ,#{ctmId}
+                ,#{reKkoUid}
+                ,#{tDate}
+                ,#{tTime}
+                ,#{rDate}
+                ,#{rTime}
+                ,#{rCode}
+                ,#{cSumup}
+            )
+        ]]>
+    </insert>
 
 </mapper>
