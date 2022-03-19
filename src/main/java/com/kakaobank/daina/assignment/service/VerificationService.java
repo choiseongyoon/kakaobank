@@ -10,6 +10,7 @@ import com.kakaobank.daina.assignment.mapper.AccInfoMapper;
 import com.kakaobank.daina.assignment.mapper.CancelTarMapper;
 import com.kakaobank.daina.assignment.mapper.CtmBaccCloseMapper;
 import com.kakaobank.daina.assignment.mapper.SimTransDetailMapper;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,13 +78,12 @@ public class VerificationService {
     }
 
     @Transactional
-    public void verifyName(String username, String receivename) {
+    public boolean verifyName(String username, String receivename) {
         if (!username.equals(receivename)) {
             // TODO: 2022-03-11 이체취소프로세스 추가
-
-            throw new BizException("실명이 일치하지 않습니다.");
+            return false;
         }
-
+        return true;
     }
     //거래존재여부, 이체구분코드 확인
     @Transactional

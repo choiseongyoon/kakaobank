@@ -1,5 +1,21 @@
 {{>layout/top}}
 
-<h2 class="ui dividing header">이체완료</h2>
+<h2 class="ui dividing header two column centered">이체완료</h2>
+
+    {{#infomation}}
+        <div class="ui card two column centered">
+            <div class="image" href="#">
+                <img src="https://1.bp.blogspot.com/-zmkd7QILAKk/YMMoKEGyqeI/AAAAAAAAgKk/5i53lpQ2dsQ9lexN-SUksvkTWr3jVBMvgCLcBGAsYHQ/s692/dsf.png">
+            </div>
+            <div class="content">
+                <div class="header" href="#">{{rName}}에게 {{tAmount}}원 이체 완료 </div>
+                <div class="meta">
+                    입금 기한 : {{rDate}} &nbsp; {{rTime}}까지
+                </div>
+            </div>
+        </div>
+
+    {{/infomation}}
 
 {{>layout/bottom}}
+

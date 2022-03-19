@@ -1,0 +1,22 @@
+{{>layout/top}}
+
+<h2 class="ui dividing header two column centered">이체가 취소되었습니다.</h2>
+
+{{#infomation}}
+    <div class="ui card two column centered">
+        <div class="image" href="#">
+            <img src="https://pbs.twimg.com/media/EVN7GKVUYAMJZ0T?format=jpg&name=900x900">
+        </div>
+        <div class="content">
+            <div class="header" href="#"> 취소 완료 ! </div>
+            <div class="meta">
+                송금인 &nbsp; : &nbsp;{{ctmName}}<br>
+                수취인 &nbsp; : &nbsp;{{rName}}<br>
+                금 액 &nbsp; : &nbsp; {{tAmount}}원
+            </div>
+        </div>
+    </div>
+
+{{/infomation}}
+
+{{>layout/bottom}}

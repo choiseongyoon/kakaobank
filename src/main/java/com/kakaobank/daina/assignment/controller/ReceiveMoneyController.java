@@ -3,6 +3,7 @@ package com.kakaobank.daina.assignment.controller;
 import com.kakaobank.daina.assignment.domain.SimTransDetail;
 import com.kakaobank.daina.assignment.dto.*;
 import com.kakaobank.daina.assignment.exception.BizException;
+import com.kakaobank.daina.assignment.service.CancelService;
 import com.kakaobank.daina.assignment.service.VerificationService;
 import com.kakaobank.daina.assignment.service.ReceiverMoneyService;
 import org.slf4j.Logger;
@@ -25,11 +26,13 @@ public class ReceiveMoneyController {
 
     ReceiverMoneyService receiverMoneyService;
     VerificationService verificationService;
+    CancelService cancelService;
     Logger loggerFactory = LoggerFactory.getLogger(ReceiveMoneyController.class);
 
-    public ReceiveMoneyController(ReceiverMoneyService receiverMoneyService, VerificationService verificationService) {
+    public ReceiveMoneyController(CancelService cancelService, ReceiverMoneyService receiverMoneyService, VerificationService verificationService) {
         this.receiverMoneyService = receiverMoneyService;
         this.verificationService = verificationService;
+        this.cancelService = cancelService;
     }
 
     @GetMapping("/receive/view")
@@ -40,11 +43,13 @@ public class ReceiveMoneyController {
         return "receiveMoney";
     }
     @PostMapping("/receive/money")
-    public String receiveMoney(@Valid ReceiveMoneyIn receiveMoneyIn) {
+    public String receiveMoney(@Valid ReceiveMoneyIn receiveMoneyIn, Model model) {
         receiverMoneyService.receiveMoney(receiveMoneyIn);
 
+        SimTransDetail infomation = receiverMoneyService.findInformation(receiveMoneyIn.gettId());
+        model.addAttribute("infomation", infomation);
 
-        return "successtrans";
+        return "successreceive";
     }
     // TODO: 2022-03-11 user이름이랑 고객이름 일치하지 않으면 취소 프로세스 
     @PostMapping(value = "/receive/verifyName")
@@ -62,7 +67,12 @@ public class ReceiveMoneyController {
         }
         try {
             loggerFactory.debug(verifyNameIn.getReceivename(), verifyNameIn.getUsername());
-            verificationService.verifyName(verifyNameIn.getReceivename(), verifyNameIn.getUsername());
+            boolean check = verificationService.verifyName(verifyNameIn.getReceivename(), verifyNameIn.getUsername());
+            if(check  == false){
+                cancelService.cancelMoney(verifyNameIn.gettId(), "C2");
+                throw new BizException("실명이 일치하지 않습니다.");
+            }
+
         } catch (BizException e) {
             return ResponseEntity
                     .badRequest()

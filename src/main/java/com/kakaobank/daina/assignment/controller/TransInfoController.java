@@ -2,13 +2,13 @@ package com.kakaobank.daina.assignment.controller;
 
 import com.kakaobank.daina.assignment.domain.AccInfo;
 import com.kakaobank.daina.assignment.domain.SimTransDetail;
-import com.kakaobank.daina.assignment.dto.SendMoneyIn;
 import com.kakaobank.daina.assignment.dto.ErrorMessage;
+import com.kakaobank.daina.assignment.dto.SendMoneyIn;
 import com.kakaobank.daina.assignment.dto.VerifyPasswordIn;
 import com.kakaobank.daina.assignment.exception.BizException;
 import com.kakaobank.daina.assignment.exception.PasswordCountException;
-import com.kakaobank.daina.assignment.service.VerificationService;
 import com.kakaobank.daina.assignment.service.TransInfoService;
+import com.kakaobank.daina.assignment.service.VerificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -53,9 +52,11 @@ public class TransInfoController {
     }
     //송금프로세스
     @PostMapping("/send/money")
-    public String sendMoney(@Valid SendMoneyIn sendMoneyIn) {
+    public String sendMoney(@Valid SendMoneyIn sendMoneyIn, Model model) {
         transInfoService.sendMoney(sendMoneyIn);
 
+        List<SimTransDetail> infomation = transInfoService.findTransactions2(sendMoneyIn.gettId());
+        model.addAttribute("infomation", infomation);
 
         return "successtrans";
     }

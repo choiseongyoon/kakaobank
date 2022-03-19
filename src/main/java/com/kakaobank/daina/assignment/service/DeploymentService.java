@@ -32,14 +32,16 @@ public class DeploymentService {
     private final CancelTarMapper cancelTarMapper;
     private final VerificationService verificationService;
     private final CancelService cancelService;
+    private final After24hoursService after24hoursService;
 
     private final Logger logger = LoggerFactory.getLogger(DeploymentService.class);
 
-    public DeploymentService(CancelService cancelService, VerificationService verificationService, SimTransDetailMapper simTransDetailMapper, CancelTarMapper cancelTarMapper) {
+    public DeploymentService(After24hoursService after24hoursService, CancelService cancelService, VerificationService verificationService, SimTransDetailMapper simTransDetailMapper, CancelTarMapper cancelTarMapper) {
         this.simTransDetailMapper = simTransDetailMapper;
         this.cancelTarMapper = cancelTarMapper;
         this.verificationService = verificationService;
         this.cancelService = cancelService;
+        this.after24hoursService  = after24hoursService;
     }
 
     @Async
@@ -70,17 +72,11 @@ public class DeploymentService {
         for(int i=0; i<cancelTars.size(); i++){
             //각 거래 당 검증부 거치고 계좌 정상인 경우 이체 취소 호출하도록
             //업무 예외에 대해서는 중단없이 프로세스가 진행되도록 하기 위한 try-catch
+            CancelTar cancelTar = cancelTars.get(i);
             try {
-                // TODO: 2022-03-17 제일먼저해야할것
-//                CancelTar cancelTar = cancelTars.get(i);
-//                check = verificationService.checkAccState(cancelTar.gettId(), cancelTar.getAccId());
-//                if(check == true){
-//                    // TODO: 2022-03-17 이체취소 호출
-//                    cancelService.cancelMoney(cancelTar.gettId(), "C4");
-//                }
-                
+                after24hoursService.cancelProcess(cancelTar);
             }catch (BizException e){
-                logger.error("에러발생해따!");
+                logger.error("에러발생해따!"+ i);
             }
         }
 

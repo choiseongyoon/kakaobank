@@ -45,6 +45,11 @@ public class ReceiverMoneyService {
 
         return simTransDetails;
     }
+    public SimTransDetail findInformation(Long tId) {
+        SimTransDetail simTransDetail = simTransDetailMapper.findById(tId);
+
+        return simTransDetail;
+    }
 
     @Transactional
     public void receiveMoney(ReceiveMoneyIn receiveMoneyIn) {
@@ -65,19 +70,6 @@ public class ReceiverMoneyService {
 
         //취소대상관리여부 확인
         verificationService.checkCancelCode(byId, "이체");
-//        if(byId.getCancelCode().equals("Y")){
-//            //취소대상인 경우에 환급여부 수정해주기 update
-//            CancelTar cancelTar = cancelTarMapper.findById(byId.gettId());
-//
-//            //코드가 Y거나 N이면 예외처리
-//            if (cancelTar.getrCode().equals("Y")){
-//                throw new BizException("이미 환급이 완료된 거래입니다.");
-//            }else if(cancelTar.getrCode().equals("E")){
-//                throw new BizException("이체 취소 대상 거래입니다.");
-//            }
-//            cancelTar.editRcode("Y", "이체 완료");
-//            cancelTarMapper.updateRcode(cancelTar);
-//         }
 
         HistorySimTransDetail historySimTransDetail = updateTransfer(receiveMoneyIn, byId);
 

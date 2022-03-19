@@ -35,8 +35,9 @@
                 C_SUMUP
             FROM cancel_tar
             WHERE R_CODE = "N"
-            AND R_DATE <= date_format(NOW(), '%Y-%m-%d')
-            AND R_TIME <= date_format(NOW(), '%H:%i:%s')
+            AND ((R_DATE <= date_format(NOW(), '%Y-%m-%d') AND R_TIME <= date_format(NOW(), '%H:%i:%s')) OR
+                    R_DATE < date_format(NOW(), '%Y-%m-%d'))
+
         ]]>
     </select>
 

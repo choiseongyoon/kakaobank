@@ -1,0 +1,22 @@
+{{>layout/top}}
+
+<h2 class="ui dividing header two column centered">받기완료</h2>
+
+    {{#infomation}}
+        <div class="ui card two column centered">
+            <div class="image" href="#">
+                <img src="https://forum-creallo.s3.dualstack.ap-northeast-2.amazonaws.com/original/1X/f376a476a24ca0c39c2b4165e080821a9663923f.jpeg">
+            </div>
+            <div class="content">
+                <div class="header" href="#"> 받기 완료 ! </div>
+                <div class="meta">
+                    송금인 &nbsp; : &nbsp;{{ctmName}} <br>
+                    금 액 &nbsp; : &nbsp; {{tAmount}}원
+                </div>
+            </div>
+        </div>
+
+    {{/infomation}}
+
+{{>layout/bottom}}
+

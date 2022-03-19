@@ -173,9 +173,7 @@
                 T_CODE ,
                 CANCEL_CODE
             FROM SIM_TRANS_DETAIL
-            WHERE cancel_code = "N"
-            AND R_DATE <= date_format(NOW(), '%Y-%m-%d')
-            AND R_TIME <= date_format(NOW(), '%H:%i:%s')
+            WHERE cancel_code = "N" AND ((R_DATE <= date_format(NOW(), '%Y-%m-%d') AND R_TIME <= date_format(NOW(), '%H:%i:%s')) OR R_DATE < date_format(NOW(), '%Y-%m-%d'))
         ]]>
     </select>
     <update id="updateCancelCode"

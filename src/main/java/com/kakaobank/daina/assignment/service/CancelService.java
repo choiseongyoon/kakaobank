@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -29,8 +30,18 @@ public class CancelService {
         this.accountingService = accountingService;
         this.historySimTransDetailMapper = historySimTransDetailMapper;
     }
+    public List<SimTransDetail> findTransactions(String reKkoUid) {
+        List<SimTransDetail> simTransDetails = simTransDetailMapper.findSend(reKkoUid);
 
+        return simTransDetails;
+    }
+    public SimTransDetail findInformation(Long tId) {
+        SimTransDetail simTransDetail = simTransDetailMapper.findById(tId);
 
+        return simTransDetail;
+    }
+
+    @Transactional
     public void cancelMoney(Long tId, String tCode) {
         SimTransDetail byId = simTransDetailMapper.findById(tId);
         if(byId == null){

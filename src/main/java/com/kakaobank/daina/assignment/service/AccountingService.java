@@ -36,7 +36,7 @@ public class AccountingService {
         for (int i = 0; i < journalRule.size(); i++) {
             JournalRule rule = journalRule.get(i);
             tStateMapper.insert(TState.createNew(tStateId, i+1L, simTransDetail.gettId(), historySimTransDetail.getnDate(), historySimTransDetail.getnTime(),
-                    rule.getPaDeCode(), rule.getAccSubCode(), simTransDetail.gettAmount(), s.concat(simTransDetail.gettCode())));
+                    rule.getPaDeCode(), rule.getAccSubCode(), simTransDetail.gettAmount(), s.concat(caseNum)));
         }
     }
 }
