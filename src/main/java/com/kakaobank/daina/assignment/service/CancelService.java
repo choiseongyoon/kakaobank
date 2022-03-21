@@ -22,13 +22,15 @@ public class CancelService {
     VerificationService verificationService;
     AccountingService accountingService;
     HistorySimTransDetailMapper historySimTransDetailMapper;
+    AccInfoMapper accInfoMapper;
 
-    public CancelService(HistorySimTransDetailMapper historySimTransDetailMapper, AccountingService accountingService, VerificationService verificationService, SimTransDetailMapper simTransDetailMapper, CancelTarMapper cancelTarMapper) {
+    public CancelService(AccInfoMapper accInfoMapper, HistorySimTransDetailMapper historySimTransDetailMapper, AccountingService accountingService, VerificationService verificationService, SimTransDetailMapper simTransDetailMapper, CancelTarMapper cancelTarMapper) {
         this.simTransDetailMapper = simTransDetailMapper;
         this.cancelTarMapper = cancelTarMapper;
         this.verificationService =  verificationService;
         this.accountingService = accountingService;
         this.historySimTransDetailMapper = historySimTransDetailMapper;
+        this.accInfoMapper = accInfoMapper;
     }
     public List<SimTransDetail> findTransactions(String reKkoUid) {
         List<SimTransDetail> simTransDetails = simTransDetailMapper.findSend(reKkoUid);
@@ -50,6 +52,11 @@ public class CancelService {
         // TODO: 2022-03-17 이체 취소 기록_간편이체거래내역_update
         byId.editTcode(tCode);
         simTransDetailMapper.updatetCode(byId);
+
+        //잔액 업데이트
+        AccInfo account = accInfoMapper.findBaccAll(byId.getAccId());
+        account.editMoney(account.getBaccBalance()+byId.gettAmount());
+        accInfoMapper.update(account);
 
         // TODO: 2022-03-17 취소대상인지 select해서 취소대상이면, 환급여부 업데이트
         verificationService.checkCancelCode(byId, "취소");

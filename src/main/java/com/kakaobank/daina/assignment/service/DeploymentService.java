@@ -62,8 +62,7 @@ public class DeploymentService {
     }
     @Async
     @Scheduled(fixedRate = 1000*60)
-    // TODO: 2022-03-17 복잡한 로직, 대량 처리하는 로직에서 예외발생하는 경우, 모두 롤백이 된다. 
-    // TODO: 2022-03-17 예외로 중단되지 않게 하는 방법 찾기
+    // 복잡한 로직, 대량 처리하는 로직에서 예외발생하는 경우, 모두 롤백이 된다.
     public void after24hours() {
         // 취소대상테이블 날짜 경과된 경우 select
         List<CancelTar> cancelTars = cancelTarMapper.findOverDate();
