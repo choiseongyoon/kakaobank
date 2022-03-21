@@ -59,7 +59,7 @@ public class ReceiverMoneyService {
         //거래존재여부, 이체구분코드 확인
         boolean checkCode  = verificationService.checkCode(byId, "C1");
 
-        //입력한 실명 일치 여부->
+        //입력한 실명 일치 여부
         AccInfo accInfo = accInfoMapper.findBaccAll(receiveMoneyIn.getrAccId());
         if(accInfo == null){
             throw new BizException("계좌정보가 존재하지 않습니다.");
@@ -70,6 +70,10 @@ public class ReceiverMoneyService {
 
         //취소대상관리여부 확인
         verificationService.checkCancelCode(byId, "이체");
+
+        //계좌잔액업데이트
+        accInfo.editMoney(accInfo.getBaccBalance()+byId.gettAmount());
+        accInfoMapper.update(accInfo);
 
         HistorySimTransDetail historySimTransDetail = updateTransfer(receiveMoneyIn, byId);
 

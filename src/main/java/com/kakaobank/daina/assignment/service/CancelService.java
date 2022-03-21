@@ -49,7 +49,7 @@ public class CancelService {
         if(byId == null){
             throw new BizException("거래정보가 존재하지 않습니다.");
         }
-        // TODO: 2022-03-17 이체 취소 기록_간편이체거래내역_update
+        //이체 취소 기록_간편이체거래내역_update
         byId.editTcode(tCode);
         simTransDetailMapper.updatetCode(byId);
 
@@ -58,10 +58,10 @@ public class CancelService {
         account.editMoney(account.getBaccBalance()+byId.gettAmount());
         accInfoMapper.update(account);
 
-        // TODO: 2022-03-17 취소대상인지 select해서 취소대상이면, 환급여부 업데이트
+        //취소대상인지 select해서 취소대상이면, 환급여부 업데이트
         verificationService.checkCancelCode(byId, "취소");
 
-        // TODO: 2022-03-17 거래내역 저장 호출
+        //거래내역 저장 호출
         byId.editTcode(tCode);
         simTransDetailMapper.updatetCode(byId);
 
@@ -79,7 +79,7 @@ public class CancelService {
                 byId.gettCode());
         historySimTransDetailMapper.insert(historySimTransDetail);
 
-        // TODO: 2022-03-17 회계처리호출
+        //회계처리호출
         accountingService.accountingTransfer(byId, historySimTransDetail, tCode);
     }
 }

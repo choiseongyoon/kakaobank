@@ -152,6 +152,10 @@ public class HistorySimTransDetail {
     public void setrCode(String rCode) {
         this.rCode = rCode;
     }
+
+    //생성자로 만들지 않고, static 함수로 만들었는지
+    //함수 명칭으로 기능에 대한 직관적인 이해 +
+    //생성자로 만들 경우 service에서 이 로직을 구현해야함
     public static HistorySimTransDetail createNew(Long tId, String accId, String ctmId, String rName, String rAccId, String reKkoUid, Long tAmount, Long commission, LocalDate nDate, LocalTime nTime, String tCode) {
         HistorySimTransDetail historySimTransDetail = new HistorySimTransDetail(
                 tId,
@@ -169,5 +173,5 @@ public class HistorySimTransDetail {
                 "N");
 
         return historySimTransDetail;
-    }
+    }//static을 사용하면 new를 하지 않아도 메모리에 올리고 사용 가능하다.
 }

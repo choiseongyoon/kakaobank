@@ -123,8 +123,8 @@ public class CancelTar {
                 simTransDetail.getReKkoUid(),
                 simTransDetail.gettDate(),
                 simTransDetail.gettTime(),
-                simTransDetail.getrDate().plusDays(1),
-                simTransDetail.getrTime(),
+                simTransDetail.getrDate(),
+                simTransDetail.getrTime().plusHours(1),
                 "N",
                 ""
         );

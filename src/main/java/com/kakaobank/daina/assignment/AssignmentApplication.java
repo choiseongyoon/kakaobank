@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan
 @SpringBootApplication
 @EnableScheduling
-@EnableAsync
 public class AssignmentApplication {
 
 	public static void main(String[] args) {

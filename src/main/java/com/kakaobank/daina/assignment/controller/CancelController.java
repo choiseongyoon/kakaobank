@@ -45,7 +45,6 @@ public class CancelController {
     }
     @PostMapping("/cancel/money")
     public String cancelMoney(@Valid CancelIn cancelIn, Model model) {
-        logger.debug("야옹");
         cancelService.cancelMoney(cancelIn.gettId(), "C2");
 
         SimTransDetail infomation = cancelService.findInformation(cancelIn.gettId());
