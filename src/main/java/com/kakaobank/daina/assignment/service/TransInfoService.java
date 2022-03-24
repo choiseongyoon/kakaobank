@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -96,6 +97,7 @@ public class TransInfoService {
     }
 
     private HistorySimTransDetail updateTransfer(SendMoneyIn sendMoneyIn, SimTransDetail byId) {
+        //Date date
         //간편이체거래내역 업데이트
         byId.editSend(sendMoneyIn.gettAmount());
         simTransDetailMapper.updatetCode(byId);

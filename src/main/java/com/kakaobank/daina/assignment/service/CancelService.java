@@ -46,15 +46,24 @@ public class CancelService {
     @Transactional
     public void cancelMoney(Long tId, String tCode) {
         SimTransDetail byId = simTransDetailMapper.findById(tId);
-        if(byId == null){
-            throw new BizException("거래정보가 존재하지 않습니다.");
-        }
+
+        //거래존재여부, 이체구분코드 확인
+        boolean checkCode  = verificationService.checkCode(byId, "C1");
+
         //이체 취소 기록_간편이체거래내역_update
         byId.editTcode(tCode);
         simTransDetailMapper.updatetCode(byId);
 
-        //잔액 업데이트
+        //계좌 상태 검증
         AccInfo account = accInfoMapper.findBaccAll(byId.getAccId());
+        if(account == null){
+            throw new BizException("계좌정보가 존재하지 않습니다.");
+        }
+        if(!(account.getBaccStatus().equals("NORMAL") | account.getBaccStatus().equals("normal"))){
+            throw new BizException("거래가 불가능한 계좌입니다.");
+        }
+
+        //잔액 업데이트
         account.editMoney(account.getBaccBalance()+byId.gettAmount());
         accInfoMapper.update(account);
 

@@ -43,7 +43,7 @@ public class DeploymentService {
             SimTransDetail simTransDetail = simTransDetails.get(i);
             try {
                 checkTimeService.cancelTarget(simTransDetail);
-                // TODO: 2022-03-21 계좌 입력 요청 메시지 전송부  
+                // TODO: 2022-03-21 계좌 입력 요청 메시지 전송부
             }catch (BizException e){
                 logger.error("에러발생해따!"+ i);
             }
