@@ -1,7 +1,6 @@
 package com.kakaobank.daina.assignment.service;
 
 import com.kakaobank.daina.assignment.domain.AccInfo;
-import com.kakaobank.daina.assignment.domain.CancelTar;
 import com.kakaobank.daina.assignment.domain.HistorySimTransDetail;
 import com.kakaobank.daina.assignment.domain.SimTransDetail;
 import com.kakaobank.daina.assignment.dto.ReceiveMoneyIn;

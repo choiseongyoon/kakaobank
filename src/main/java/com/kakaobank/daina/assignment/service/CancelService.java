@@ -1,28 +1,29 @@
 package com.kakaobank.daina.assignment.service;
 
-import com.kakaobank.daina.assignment.domain.*;
-import com.kakaobank.daina.assignment.dto.SendMoneyIn;
+import com.kakaobank.daina.assignment.domain.AccInfo;
+import com.kakaobank.daina.assignment.domain.HistorySimTransDetail;
+import com.kakaobank.daina.assignment.domain.SimTransDetail;
 import com.kakaobank.daina.assignment.exception.BizException;
-import com.kakaobank.daina.assignment.exception.PasswordCountException;
-import com.kakaobank.daina.assignment.mapper.*;
+import com.kakaobank.daina.assignment.mapper.AccInfoMapper;
+import com.kakaobank.daina.assignment.mapper.CancelTarMapper;
+import com.kakaobank.daina.assignment.mapper.HistorySimTransDetailMapper;
+import com.kakaobank.daina.assignment.mapper.SimTransDetailMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CancelService {
 
-    SimTransDetailMapper simTransDetailMapper;
-    CancelTarMapper cancelTarMapper;
-    VerificationService verificationService;
-    AccountingService accountingService;
-    HistorySimTransDetailMapper historySimTransDetailMapper;
-    AccInfoMapper accInfoMapper;
+    private final SimTransDetailMapper simTransDetailMapper;
+    private final CancelTarMapper cancelTarMapper;
+    private final VerificationService verificationService;
+    private final AccountingService accountingService;
+    private final HistorySimTransDetailMapper historySimTransDetailMapper;
+    private final AccInfoMapper accInfoMapper;
 
     public CancelService(AccInfoMapper accInfoMapper, HistorySimTransDetailMapper historySimTransDetailMapper, AccountingService accountingService, VerificationService verificationService, SimTransDetailMapper simTransDetailMapper, CancelTarMapper cancelTarMapper) {
         this.simTransDetailMapper = simTransDetailMapper;

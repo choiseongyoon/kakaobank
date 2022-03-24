@@ -1,15 +1,16 @@
 package com.kakaobank.daina.assignment.service;
 
-import com.kakaobank.daina.assignment.domain.*;
-import com.kakaobank.daina.assignment.dto.SendMoneyIn;
-import com.kakaobank.daina.assignment.exception.BizException;
-import com.kakaobank.daina.assignment.mapper.*;
+import com.kakaobank.daina.assignment.domain.HistorySimTransDetail;
+import com.kakaobank.daina.assignment.domain.JournalRule;
+import com.kakaobank.daina.assignment.domain.SimTransDetail;
+import com.kakaobank.daina.assignment.domain.TState;
+import com.kakaobank.daina.assignment.mapper.JournalRuleMapper;
+import com.kakaobank.daina.assignment.mapper.TStateMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.ref.PhantomReference;
 import java.util.List;
 
 @Service

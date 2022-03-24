@@ -10,12 +10,9 @@ import com.kakaobank.daina.assignment.mapper.AccInfoMapper;
 import com.kakaobank.daina.assignment.mapper.CancelTarMapper;
 import com.kakaobank.daina.assignment.mapper.CtmBaccCloseMapper;
 import com.kakaobank.daina.assignment.mapper.SimTransDetailMapper;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.ref.PhantomReference;
 import java.util.Map;
 
 @Service
